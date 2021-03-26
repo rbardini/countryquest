@@ -34,12 +34,12 @@ export default function WorldMap({ className }) {
   useLayoutEffect(() => {
     const map = create(containerRef.current, MapChart);
     map.hiddenState.properties.opacity = 0;
-
     map.geodata = worldLowGeodata;
     map.projection = new projections.NaturalEarth1();
 
     const series = map.series.push(new MapPolygonSeries());
     series.useGeodata = true;
+    series.data = [...countries].map((id) => ({ id, value: 1 }));
     series.heatRules.push({
       property: "fill",
       target: series.mapPolygons.template,
@@ -53,22 +53,15 @@ export default function WorldMap({ className }) {
     template.tooltipText = "{name}";
     template.cursorOverStyle = MouseCursorStyle.pointer;
     template.fill = color(BASE_COLOR);
-    template.states.create("hover").properties.fill = color(
-      BASE_COLOR
-    ).brighten(-0.25);
-    template.events.on("hit", ({ target }) =>
-      toggleCountry(target.dataItem.dataContext.id)
-    );
+    template.events.on("hit", ({ target: { dataItem } }) => {
+      dataItem.value ^= 1;
+      toggleCountry(dataItem.dataContext.id);
+    });
 
     mapRef.current = map;
 
     return () => map.dispose();
   }, []);
-
-  useLayoutEffect(() => {
-    const [series] = mapRef.current.series.values;
-    series.data = [...countries].map((id) => ({ id, value: 1 }));
-  }, [countries]);
 
   return <div ref={containerRef} className={className} />;
 }
