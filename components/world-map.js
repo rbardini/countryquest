@@ -63,5 +63,21 @@ export default function WorldMap({ className }) {
     return () => map.dispose();
   }, []);
 
-  return <div ref={containerRef} className={className} />;
+  return (
+    <>
+      <div ref={containerRef} className={className} />
+      <ul>
+        {[...countries]
+          .map(
+            (country) =>
+              worldLowGeodata.features.find(({ id }) => id === country)
+                .properties.name
+          )
+          .sort()
+          .map((country) => (
+            <li key={country}>{country}</li>
+          ))}
+      </ul>
+    </>
+  );
 }
