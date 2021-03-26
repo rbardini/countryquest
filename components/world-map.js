@@ -12,13 +12,15 @@ import {
 } from "@amcharts/amcharts4/maps";
 import worldLowGeodata from "@amcharts/amcharts4-geodata/worldLow";
 import animatedTheme from "@amcharts/amcharts4/themes/animated";
+import { flag } from "country-emoji";
+import styles from "../styles/WorldMap.module.css";
 
 const BASE_COLOR = "#d9d9d9";
 const STORAGE_KEY = "countries";
 
 useTheme(animatedTheme);
 
-export default function WorldMap({ className }) {
+export default function WorldMap() {
   const mapRef = useRef(null);
   const containerRef = useRef(null);
   const [countries, setCountries] = useState(
@@ -65,8 +67,8 @@ export default function WorldMap({ className }) {
 
   return (
     <>
-      <div ref={containerRef} className={className} />
-      <ul>
+      <div ref={containerRef} className={styles.chart} />
+      <ul className={styles.list}>
         {[...countries]
           .map(
             (country) =>
@@ -75,7 +77,9 @@ export default function WorldMap({ className }) {
           )
           .sort()
           .map((country) => (
-            <li key={country}>{country}</li>
+            <li key={country}>
+              {flag(country)} {country}
+            </li>
           ))}
       </ul>
     </>
