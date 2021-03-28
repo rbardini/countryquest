@@ -10,8 +10,9 @@ import {
   MapPolygonSeries,
   projections,
 } from "@amcharts/amcharts4/maps";
-import worldLowGeodata from "@amcharts/amcharts4-geodata/worldLow";
 import animatedTheme from "@amcharts/amcharts4/themes/animated";
+import worldLowGeodata from "@amcharts/amcharts4-geodata/worldLow";
+import countriesData from "@amcharts/amcharts4-geodata/data/countries2";
 import { flag } from "country-emoji";
 import styles from "../styles/WorldMap.module.css";
 
@@ -70,15 +71,11 @@ export default function WorldMap() {
       <div ref={containerRef} className={styles.chart} />
       <ul className={styles.list}>
         {[...countries]
-          .map(
-            (country) =>
-              worldLowGeodata.features.find(({ id }) => id === country)
-                .properties.name
-          )
-          .sort()
-          .map((country) => (
-            <li key={country}>
-              {flag(country)} {country}
+          .map((id) => ({ id, ...countriesData[id] }))
+          .sort((a, b) => a.country.localeCompare(b.country))
+          .map(({ id, country }) => (
+            <li key={id}>
+              {flag(id)} {country}
             </li>
           ))}
       </ul>
