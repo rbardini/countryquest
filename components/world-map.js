@@ -11,9 +11,9 @@ import {
   projections,
 } from "@amcharts/amcharts4/maps";
 import animatedTheme from "@amcharts/amcharts4/themes/animated";
-import worldLowGeodata from "@amcharts/amcharts4-geodata/worldLow";
 import countriesData from "@amcharts/amcharts4-geodata/data/countries2";
 import { countryCodeEmoji } from "country-code-emoji";
+import normalizedGeodata from "../data/geodata";
 import styles from "../styles/WorldMap.module.css";
 
 const BASE_COLOR = "#d9d9d9";
@@ -37,7 +37,7 @@ export default function WorldMap() {
   useLayoutEffect(() => {
     const map = create(containerRef.current, MapChart);
     map.hiddenState.properties.opacity = 0;
-    map.geodata = worldLowGeodata;
+    map.geodata = normalizedGeodata;
     map.projection = new projections.NaturalEarth1();
 
     const series = map.series.push(new MapPolygonSeries());
