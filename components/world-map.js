@@ -13,7 +13,7 @@ import {
 import animatedTheme from "@amcharts/amcharts4/themes/animated";
 import worldLowGeodata from "@amcharts/amcharts4-geodata/worldLow";
 import countriesData from "@amcharts/amcharts4-geodata/data/countries2";
-import { flag } from "country-emoji";
+import { countryCodeEmoji } from "country-code-emoji";
 import styles from "../styles/WorldMap.module.css";
 
 const BASE_COLOR = "#d9d9d9";
@@ -75,7 +75,7 @@ export default function WorldMap() {
           .sort((a, b) => a.country.localeCompare(b.country))
           .map(({ id, country }) => (
             <li key={id}>
-              {flag(id)} {country}
+              {countryCodeEmoji(id)} {country}
             </li>
           ))}
       </ul>
