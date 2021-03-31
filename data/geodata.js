@@ -23,7 +23,24 @@ const um = {
 const geodata = {
   ...worldLowGeodata,
   // Omit countries without data and add merged U.S. Minor Outlying Islands
-  features: [...rest.filter(({ id }) => countriesData[id]), um],
+  features: [...rest.filter(({ id }) => countriesData[id]), um].map(
+    // Add continent information
+    (feature) => {
+      const {
+        continent: continentName,
+        continent_code: continentId,
+      } = countriesData[feature.id];
+
+      return {
+        ...feature,
+        properties: {
+          ...feature.properties,
+          continentId,
+          continentName,
+        },
+      };
+    }
+  ),
 };
 
 export default geodata;
