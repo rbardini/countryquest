@@ -11,7 +11,6 @@ import {
   projections,
 } from "@amcharts/amcharts4/maps";
 import animatedTheme from "@amcharts/amcharts4/themes/animated";
-import countriesData from "@amcharts/amcharts4-geodata/data/countries2";
 import { countryCodeEmoji } from "country-code-emoji";
 import normalizedGeodata from "../data/geodata";
 import styles from "../styles/WorldMap.module.css";
@@ -71,11 +70,15 @@ export default function WorldMap() {
       <div ref={containerRef} className={styles.chart} />
       <ul className={styles.list}>
         {[...countries]
-          .map((id) => ({ id, ...countriesData[id] }))
-          .sort((a, b) => a.country.localeCompare(b.country))
-          .map(({ id, country }) => (
+          .map(
+            (country) =>
+              normalizedGeodata.features.find(({ id }) => id === country)
+                .properties
+          )
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map(({ id, name }) => (
             <li key={id}>
-              {countryCodeEmoji(id)} {country}
+              {countryCodeEmoji(id)} {name}
             </li>
           ))}
       </ul>
