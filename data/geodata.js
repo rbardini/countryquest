@@ -6,7 +6,7 @@ const UM_ID = "UM";
 
 // Partition U.S. Minor Outlying Islands and rest of countries
 const [ums, rest] = worldLowGeodata.features.reduce(
-  (acc, cur) => acc[+!cur.id.startsWith(UM_ID)].push(cur) && acc,
+  (acc, feature) => acc[+!feature.id.startsWith(UM_ID)].push(feature) && acc,
   [[], []]
 );
 

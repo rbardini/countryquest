@@ -12,7 +12,8 @@ import {
 } from "@amcharts/amcharts4/maps";
 import animatedTheme from "@amcharts/amcharts4/themes/animated";
 import { countryCodeEmoji } from "country-code-emoji";
-import normalizedGeodata from "../data/geodata";
+import Stats from "../components/stats";
+import geodata from "../data/geodata";
 import styles from "../styles/WorldMap.module.css";
 
 const BASE_COLOR = "#d9d9d9";
@@ -36,7 +37,7 @@ export default function WorldMap() {
   useLayoutEffect(() => {
     const map = create(containerRef.current, MapChart);
     map.hiddenState.properties.opacity = 0;
-    map.geodata = normalizedGeodata;
+    map.geodata = geodata;
     map.projection = new projections.NaturalEarth1();
 
     const series = map.series.push(new MapPolygonSeries());
@@ -65,23 +66,23 @@ export default function WorldMap() {
     return () => map.dispose();
   }, []);
 
+  const countriesData = [...countries]
+    .map(
+      (country) => geodata.features.find(({ id }) => id === country).properties
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <>
       <div ref={containerRef} className={styles.chart} />
       <ul className={styles.list}>
-        {[...countries]
-          .map(
-            (country) =>
-              normalizedGeodata.features.find(({ id }) => id === country)
-                .properties
-          )
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map(({ id, name }) => (
-            <li key={id}>
-              {countryCodeEmoji(id)} {name}
-            </li>
-          ))}
+        {countriesData.map(({ id, name }) => (
+          <li key={id}>
+            {countryCodeEmoji(id)} {name}
+          </li>
+        ))}
       </ul>
+      <Stats countriesData={countriesData} />
     </>
   );
 }
