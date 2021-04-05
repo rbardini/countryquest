@@ -1,5 +1,6 @@
 import worldLowGeodata from "@amcharts/amcharts4-geodata/worldLow";
 import countriesData from "@amcharts/amcharts4-geodata/data/countries2";
+import geojsonArea from "@mapbox/geojson-area";
 
 const UM_ID = "UM";
 
@@ -35,6 +36,7 @@ const geodata = {
         ...feature,
         properties: {
           ...feature.properties,
+          area: geojsonArea.geometry(feature.geometry),
           continentId,
           continentName,
         },
