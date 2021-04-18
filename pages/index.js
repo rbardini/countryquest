@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
-const WorldMap = dynamic(() => import("../components/world-map"), {
+const Content = dynamic(() => import("../components/content"), {
   ssr: false,
 });
 
@@ -14,7 +14,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <WorldMap />
+      <Content />
     </div>
   );
 }
