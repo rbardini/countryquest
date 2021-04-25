@@ -1,7 +1,7 @@
 import { useState } from "react";
 import geodata from "../data/geodata";
+import Achievements from "./achievements";
 import CountryList from "./country-list";
-import Stats from "./stats";
 import WorldMap from "./world-map";
 
 const STORAGE_KEY = "countries";
@@ -28,7 +28,7 @@ export default function Content() {
     <div>
       <WorldMap countriesData={countriesData} onCountryClick={onCountryClick} />
       <CountryList countriesData={countriesData} />
-      <Stats countriesData={countriesData} />
+      <Achievements countriesData={countriesData} />
     </div>
   );
 }
