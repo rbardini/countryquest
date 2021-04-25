@@ -1,4 +1,5 @@
 import { useLayoutEffect } from "react";
+import { useToken } from "@chakra-ui/react";
 import { MouseCursorStyle, color, create } from "@amcharts/amcharts4/core";
 import {
   MapChart,
@@ -7,9 +8,9 @@ import {
 } from "@amcharts/amcharts4/maps";
 import geodata from "../data/geodata";
 
-const BASE_COLOR = "#d9d9d9";
-
 export default function useChart(containerRef, countriesData, onCountryClick) {
+  const [gray100, blue500] = useToken("colors", ["gray.100", "blue.500"]);
+
   useLayoutEffect(() => {
     const map = create(containerRef.current, MapChart);
     map.hiddenState.properties.opacity = 0;
@@ -22,8 +23,8 @@ export default function useChart(containerRef, countriesData, onCountryClick) {
     series.heatRules.push({
       property: "fill",
       target: series.mapPolygons.template,
-      min: color(BASE_COLOR),
-      max: color(BASE_COLOR).brighten(-0.75),
+      min: color(gray100),
+      max: color(blue500),
       minValue: 0,
       maxValue: 1,
     });
@@ -31,7 +32,7 @@ export default function useChart(containerRef, countriesData, onCountryClick) {
     const template = series.mapPolygons.template;
     template.tooltipText = "{name}";
     template.cursorOverStyle = MouseCursorStyle.pointer;
-    template.fill = color(BASE_COLOR);
+    template.fill = color(gray100);
     template.events.on("hit", ({ target: { dataItem } }) => {
       dataItem.value ^= 1;
       onCountryClick(dataItem.dataContext.id);

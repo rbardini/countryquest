@@ -1,14 +1,19 @@
+import { Heading, Tag, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 import { countryCodeEmoji } from "country-code-emoji";
-import styles from "../styles/CountryList.module.css";
 
 export default function CountryList({ countriesData }) {
   return (
-    <ul className={styles.list}>
-      {countriesData.map(({ id, name }) => (
-        <li key={id}>
-          {countryCodeEmoji(id)} {name}
-        </li>
-      ))}
-    </ul>
+    <VStack align="stretch">
+      <Heading>Countries</Heading>
+      <Wrap>
+        {countriesData.map(({ id, name }) => (
+          <WrapItem key={id}>
+            <Tag size="lg" borderRadius="full">
+              {countryCodeEmoji(id)} {name}
+            </Tag>
+          </WrapItem>
+        ))}
+      </Wrap>
+    </VStack>
   );
 }

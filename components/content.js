@@ -1,3 +1,4 @@
+import { Grid, GridItem } from "@chakra-ui/react";
 import { useState } from "react";
 import geodata from "../data/geodata";
 import Achievements from "./achievements";
@@ -25,10 +26,19 @@ export default function Content() {
     .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <div>
-      <WorldMap countriesData={countriesData} onCountryClick={onCountryClick} />
-      <CountryList countriesData={countriesData} />
-      <Achievements countriesData={countriesData} />
-    </div>
+    <Grid gap={8} padding={8} templateColumns={{ lg: "1fr 1fr" }}>
+      <GridItem colSpan={{ lg: 2 }}>
+        <WorldMap
+          countriesData={countriesData}
+          onCountryClick={onCountryClick}
+        />
+      </GridItem>
+      <GridItem>
+        <CountryList countriesData={countriesData} />
+      </GridItem>
+      <GridItem>
+        <Achievements countriesData={countriesData} />
+      </GridItem>
+    </Grid>
   );
 }

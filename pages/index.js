@@ -1,6 +1,6 @@
+import { Box } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 
 const Content = dynamic(() => import("../components/content"), {
   ssr: false,
@@ -8,13 +8,12 @@ const Content = dynamic(() => import("../components/content"), {
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <Box minHeight="100vh">
       <Head>
         <title>Countryquest</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <Content />
-    </div>
+    </Box>
   );
 }
