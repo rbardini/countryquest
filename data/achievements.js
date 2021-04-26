@@ -24,7 +24,7 @@ const achievements = [
   },
   {
     name: "Land Surveyor",
-    description: "Visit world's entire land surface",
+    description: "Visit the entire world's land surface",
     min: 0,
     max: area,
     value: (data) => data.reduce((acc, { area }) => acc + area, 0),
