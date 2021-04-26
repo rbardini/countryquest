@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import { AspectRatio, Box } from "@chakra-ui/react";
 import { useTheme } from "@amcharts/amcharts4/core";
 import animatedTheme from "@amcharts/amcharts4/themes/animated";
@@ -6,13 +6,17 @@ import useChart from "../hooks/use-chart";
 
 useTheme(animatedTheme);
 
-export default function WorldMap({ countriesData, onCountryClick }) {
+export default forwardRef(function WorldMap(
+  { countriesData, onCountryClick },
+  ref
+) {
   const containerRef = useRef(null);
-  useChart(containerRef, countriesData, onCountryClick);
+  const chartRef = useChart(containerRef, countriesData, onCountryClick);
+  useImperativeHandle(ref, () => chartRef.current);
 
   return (
     <AspectRatio marginInline="auto" maxInlineSize="130vh" ratio={2 / 1}>
       <Box ref={containerRef} />
     </AspectRatio>
   );
-}
+});

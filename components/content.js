@@ -1,13 +1,16 @@
 import { Grid, GridItem } from "@chakra-ui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import geodata from "../data/geodata";
 import Achievements from "./achievements";
 import CountryList from "./country-list";
+import worldMap from "./world-map";
 import WorldMap from "./world-map";
 
 const STORAGE_KEY = "countries";
 
 export default function Content() {
+  const worldMapRef = useRef(null);
+
   const [countries, setCountries] = useState(
     new Set(JSON.parse(localStorage.getItem(STORAGE_KEY)))
   );
@@ -29,12 +32,19 @@ export default function Content() {
     <Grid gap={8} padding={8} templateColumns={{ lg: "1fr 1fr" }}>
       <GridItem colSpan={{ lg: 2 }}>
         <WorldMap
+          ref={worldMapRef}
           countriesData={countriesData}
           onCountryClick={onCountryClick}
         />
       </GridItem>
       <GridItem>
-        <CountryList countriesData={countriesData} />
+        <CountryList
+          countriesData={countriesData}
+          onCountryClick={(id) => {
+            worldMapRef.current?.toggle(id);
+            onCountryClick(id);
+          }}
+        />
       </GridItem>
       <GridItem>
         <Achievements countriesData={countriesData} />
