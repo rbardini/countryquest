@@ -1,8 +1,16 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import "@fontsource/dosis/variable.css";
+
+const theme = extendTheme({
+  fonts: {
+    heading: "DosisVariable, sans-serif",
+    body: "DosisVariable, sans-serif",
+  },
+});
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Component {...pageProps} />
     </ChakraProvider>
   );
