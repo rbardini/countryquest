@@ -3,10 +3,11 @@ import { useRef, useState } from "react";
 import geodata from "../data/geodata";
 import Achievements from "./achievements";
 import CountryList from "./country-list";
-import worldMap from "./world-map";
 import WorldMap from "./world-map";
 
 const STORAGE_KEY = "countries";
+
+const nameCompare = (a, b) => a.name.localeCompare(b.name);
 
 export default function Content() {
   const worldMapRef = useRef(null);
@@ -15,39 +16,46 @@ export default function Content() {
     new Set(JSON.parse(localStorage.getItem(STORAGE_KEY)))
   );
 
-  const onCountryClick = (id) =>
+  const toggleCountry = (id) =>
     setCountries((countries) => {
       countries.delete(id) || countries.add(id);
       localStorage.setItem(STORAGE_KEY, JSON.stringify([...countries]));
       return new Set(countries);
     });
 
-  const countriesData = [...countries]
-    .map(
-      (country) => geodata.features.find(({ id }) => id === country).properties
-    )
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const toggleMapCountry = (id) => worldMapRef.current?.toggle(id);
+
+  const [
+    unvisitedCountriesData,
+    visitedCountriesData,
+  ] = geodata.features.reduce(
+    (acc, { id, properties }) =>
+      acc[+countries.has(id)].push(properties) && acc,
+    [[], []]
+  );
+
+  unvisitedCountriesData.sort(nameCompare);
+  visitedCountriesData.sort(nameCompare);
 
   return (
     <Grid gap={8} padding={8} templateColumns={{ lg: "1fr 1fr" }}>
       <GridItem colSpan={{ lg: 2 }}>
         <WorldMap
           ref={worldMapRef}
-          countriesData={countriesData}
-          onCountryClick={onCountryClick}
+          onCountryClick={toggleCountry}
+          visitedCountriesData={visitedCountriesData}
         />
       </GridItem>
       <GridItem>
         <CountryList
-          countriesData={countriesData}
-          onCountryClick={(id) => {
-            worldMapRef.current?.toggle(id);
-            onCountryClick(id);
-          }}
+          onCountryAdd={toggleMapCountry}
+          onCountryRemove={toggleMapCountry}
+          unvisitedCountriesData={unvisitedCountriesData}
+          visitedCountriesData={visitedCountriesData}
         />
       </GridItem>
       <GridItem>
-        <Achievements countriesData={countriesData} />
+        <Achievements visitedCountriesData={visitedCountriesData} />
       </GridItem>
     </Grid>
   );

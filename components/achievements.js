@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import achievements from "../data/achievements";
 
-export default function Achievements({ countriesData }) {
+export default function Achievements({ visitedCountriesData }) {
   return (
     <VStack align="stretch">
       <Heading>Achievements</Heading>
@@ -26,11 +26,11 @@ export default function Achievements({ countriesData }) {
                   borderRadius="full"
                   flex={1}
                   max={1}
-                  value={value(countriesData) / max}
+                  value={value(visitedCountriesData) / max}
                 ></Progress>
                 <Text fontSize="xs" textAlign="end">
-                  {formatValue(value(countriesData))} / {formatValue(max)}{" "}
-                  {unit}
+                  {formatValue(value(visitedCountriesData))} /{" "}
+                  {formatValue(max)} {unit}
                 </Text>
               </HStack>
             </Box>

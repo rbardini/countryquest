@@ -1,5 +1,5 @@
 import worldLowGeodata from "@amcharts/amcharts4-geodata/worldLow";
-import countriesData from "@amcharts/amcharts4-geodata/data/countries2";
+import countries2 from "@amcharts/amcharts4-geodata/data/countries2";
 import geojsonArea from "@mapbox/geojson-area";
 
 const UM_ID = "UM";
@@ -17,20 +17,20 @@ const um = {
     type: "MultiPolygon",
     coordinates: ums.map(({ geometry }) => geometry.coordinates),
   },
-  properties: { name: countriesData[UM_ID].country, id: UM_ID },
+  properties: { name: countries2[UM_ID].country, id: UM_ID },
   id: UM_ID,
 };
 
 const geodata = {
   ...worldLowGeodata,
   // Omit countries without data and add merged U.S. Minor Outlying Islands
-  features: [...rest.filter(({ id }) => countriesData[id]), um].map(
+  features: [...rest.filter(({ id }) => countries2[id]), um].map(
     // Add continent information
     (feature) => {
       const {
         continent: continentName,
         continent_code: continentId,
-      } = countriesData[feature.id];
+      } = countries2[feature.id];
 
       return {
         ...feature,

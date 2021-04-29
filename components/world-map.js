@@ -7,11 +7,11 @@ import useChart from "../hooks/use-chart";
 useTheme(animatedTheme);
 
 export default forwardRef(function WorldMap(
-  { countriesData, onCountryClick },
+  { onCountryClick, visitedCountriesData },
   ref
 ) {
   const containerRef = useRef(null);
-  const chartRef = useChart(containerRef, countriesData, onCountryClick);
+  const chartRef = useChart(containerRef, visitedCountriesData, onCountryClick);
   useImperativeHandle(ref, () => chartRef.current);
 
   return (

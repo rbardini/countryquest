@@ -41,11 +41,7 @@ export default function useChart(containerRef, countriesData, onCountryClick) {
 
     chartRef.current = {
       chart,
-      toggle: (id) => {
-        chart.series.values[0].dataItems.values.find(
-          ({ dataContext }) => dataContext.id === id
-        ).value ^= 1;
-      },
+      toggle: (id) => series.getPolygonById(id).dispatchImmediately("hit"),
     };
 
     return () => {
