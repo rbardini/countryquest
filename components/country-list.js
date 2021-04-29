@@ -10,6 +10,9 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 import { countryCodeEmoji } from "country-code-emoji";
+import { motion } from "framer-motion";
+
+const MotionWrapItem = motion(WrapItem);
 
 export default function CountryList({
   onCountryAdd,
@@ -22,17 +25,17 @@ export default function CountryList({
       <Heading>Visited countries</Heading>
       <Wrap>
         {visitedCountriesData.map(({ id, name }) => (
-          <WrapItem key={id}>
+          <MotionWrapItem key={id} layout="position">
             <Tag size="lg" borderRadius="full">
               <TagLabel>
                 {countryCodeEmoji(id)} {name}
               </TagLabel>
               <TagCloseButton onClick={() => onCountryRemove(id)} />
             </Tag>
-          </WrapItem>
+          </MotionWrapItem>
         ))}
         {unvisitedCountriesData.length > 0 && (
-          <WrapItem>
+          <MotionWrapItem layout="position">
             <Select
               borderRadius="full"
               color="gray.500"
@@ -50,7 +53,7 @@ export default function CountryList({
                 </option>
               ))}
             </Select>
-          </WrapItem>
+          </MotionWrapItem>
         )}
       </Wrap>
     </VStack>
