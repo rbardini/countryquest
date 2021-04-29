@@ -7,7 +7,10 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import achievements from "../data/achievements";
+
+const MotionBox = motion(Box);
 
 export default function Achievements({ visitedCountriesData }) {
   return (
@@ -35,7 +38,13 @@ export default function Achievements({ visitedCountriesData }) {
               progress,
               unit,
             }) => (
-              <Box key={name} borderRadius="lg" borderWidth="1px" padding={4}>
+              <MotionBox
+                key={name}
+                borderRadius="lg"
+                borderWidth="1px"
+                layout="position"
+                padding={4}
+              >
                 <Heading as="h3" fontSize="1xl">
                   🏆 {name}
                 </Heading>
@@ -51,7 +60,7 @@ export default function Achievements({ visitedCountriesData }) {
                     {formattedValue} / {formattedMaxValue} {unit}
                   </Text>
                 </HStack>
-              </Box>
+              </MotionBox>
             )
           )}
       </SimpleGrid>
