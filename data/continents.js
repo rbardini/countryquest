@@ -1,9 +1,8 @@
-import geodata from "./geodata";
+// @preval
+const geodata = require("./geodata");
 
-const continents = geodata.features.reduce(
-  (acc, { properties: { continentId: id, continentName: name } }) =>
-    (acc[id] = { id, name }) && acc,
+module.exports = geodata.features.reduce(
+  (acc, { properties: { continentId, continentName } }) =>
+    (acc[continentId] = continentName) && acc,
   {}
 );
-
-export default continents;

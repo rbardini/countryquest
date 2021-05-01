@@ -5,7 +5,7 @@ import geodata from "./geodata";
 const countryCount = geodata.features.length;
 const continentCount = Object.keys(continents).length;
 
-const achievements = [
+export default [
   {
     name: "Travelling Salesman",
     description: `Visit all countries`,
@@ -43,5 +43,3 @@ const achievements = [
     formatValue: (value) => value,
   },
 ];
-
-export default achievements;

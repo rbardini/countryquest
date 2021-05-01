@@ -1,6 +1,7 @@
-import worldLowGeodata from "@amcharts/amcharts4-geodata/worldLow";
-import countries2 from "@amcharts/amcharts4-geodata/data/countries2";
-import geojsonArea from "@mapbox/geojson-area";
+// @preval
+const worldLowGeodata = require("@amcharts/amcharts4-geodata/json/worldLow.json");
+const countries2 = require("@amcharts/amcharts4-geodata/json/data/countries2.json");
+const geojsonArea = require("@mapbox/geojson-area");
 
 const UM_ID = "UM";
 
@@ -21,7 +22,7 @@ const um = {
   id: UM_ID,
 };
 
-const geodata = {
+module.exports = {
   ...worldLowGeodata,
   // Omit countries without data and add merged U.S. Minor Outlying Islands
   features: [...rest.filter(({ id }) => countries2[id]), um].map(
@@ -44,5 +45,3 @@ const geodata = {
     }
   ),
 };
-
-export default geodata;

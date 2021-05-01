@@ -1,8 +1,7 @@
-import geodata from "./geodata";
+// @preval
+const geodata = require("./geodata");
 
-const area = geodata.features.reduce(
+module.exports = geodata.features.reduce(
   (acc, { properties: { area } }) => acc + area,
   0
 );
-
-export default area;
