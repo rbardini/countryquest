@@ -10,7 +10,7 @@ import {
 import { motion } from "framer-motion";
 import achievements from "../data/achievements";
 
-const MotionBox = motion(Box);
+const MotionHStack = motion(HStack);
 
 export default function Achievements({ visitedCountriesData }) {
   const formattedAchievements = achievements
@@ -52,29 +52,36 @@ export default function Achievements({ visitedCountriesData }) {
             progress,
             unit,
           }) => (
-            <MotionBox
+            <MotionHStack
               key={name}
+              alignItems="center"
               borderRadius="lg"
               borderWidth="1px"
               layout="position"
               padding={4}
+              spacing={4}
             >
-              <Heading as="h3" fontSize="1xl">
-                🏆 {name}
-              </Heading>
-              <Text>{description}</Text>
-              <HStack>
-                <Progress
-                  borderRadius="full"
-                  flex={1}
-                  max={1}
-                  value={progress}
-                ></Progress>
-                <Text fontSize="xs" textAlign="end">
-                  {formattedValue} / {formattedMaxValue} {unit}
-                </Text>
-              </HStack>
-            </MotionBox>
+              <Text as="span" fontSize="5xl" lineHeight="1">
+                🏆
+              </Text>
+              <Box flex={1}>
+                <Heading as="h3" fontSize="1xl">
+                  {name}
+                </Heading>
+                <Text>{description}</Text>
+                <HStack>
+                  <Progress
+                    borderRadius="full"
+                    flex={1}
+                    max={1}
+                    value={progress}
+                  ></Progress>
+                  <Text fontSize="xs" textAlign="end">
+                    {formattedValue} / {formattedMaxValue} {unit}
+                  </Text>
+                </HStack>
+              </Box>
+            </MotionHStack>
           )
         )}
       </SimpleGrid>
