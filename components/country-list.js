@@ -5,6 +5,7 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
+  Text,
   VStack,
   Wrap,
   WrapItem,
@@ -22,7 +23,12 @@ export default function CountryList({
 }) {
   return (
     <VStack align="stretch">
-      <Heading>Visited countries</Heading>
+      <Heading>
+        Visited countries{" "}
+        <Text as="i" color="gray.300">
+          {visitedCountriesData.length}
+        </Text>
+      </Heading>
       <Wrap>
         {visitedCountriesData.map(({ id, name }) => (
           <MotionWrapItem key={id} layout="position">

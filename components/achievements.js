@@ -13,56 +13,70 @@ import achievements from "../data/achievements";
 const MotionBox = motion(Box);
 
 export default function Achievements({ visitedCountriesData }) {
+  const formattedAchievements = achievements
+    .map((achievement) => {
+      const value = achievement.value(visitedCountriesData);
+      const progress = value / achievement.max;
+      const completed = progress === 1;
+
+      return {
+        ...achievement,
+        completed,
+        formattedMaxValue: achievement.formatValue(achievement.max),
+        formattedValue: achievement.formatValue(value),
+        progress,
+        value,
+      };
+    })
+    .sort((a, b) => b.progress - a.progress);
+
+  const completedCount = formattedAchievements.filter(
+    ({ completed }) => completed
+  ).length;
+
   return (
     <VStack align="stretch">
-      <Heading>Achievements</Heading>
+      <Heading>
+        Achievements{" "}
+        <Text as="i" color="gray.300">
+          {completedCount}
+        </Text>
+      </Heading>
       <SimpleGrid minChildWidth="20em" spacing={2}>
-        {achievements
-          .map((achievement) => {
-            const value = achievement.value(visitedCountriesData);
-            return {
-              ...achievement,
-              formattedMaxValue: achievement.formatValue(achievement.max),
-              formattedValue: achievement.formatValue(value),
-              progress: value / achievement.max,
-              value,
-            };
-          })
-          .sort((a, b) => b.progress - a.progress)
-          .map(
-            ({
-              description,
-              formattedMaxValue,
-              formattedValue,
-              name,
-              progress,
-              unit,
-            }) => (
-              <MotionBox
-                key={name}
-                borderRadius="lg"
-                borderWidth="1px"
-                layout="position"
-                padding={4}
-              >
-                <Heading as="h3" fontSize="1xl">
-                  🏆 {name}
-                </Heading>
-                <Text>{description}</Text>
-                <HStack>
-                  <Progress
-                    borderRadius="full"
-                    flex={1}
-                    max={1}
-                    value={progress}
-                  ></Progress>
-                  <Text fontSize="xs" textAlign="end">
-                    {formattedValue} / {formattedMaxValue} {unit}
-                  </Text>
-                </HStack>
-              </MotionBox>
-            )
-          )}
+        {formattedAchievements.map(
+          ({
+            description,
+            formattedMaxValue,
+            formattedValue,
+            name,
+            progress,
+            unit,
+          }) => (
+            <MotionBox
+              key={name}
+              borderRadius="lg"
+              borderWidth="1px"
+              layout="position"
+              padding={4}
+            >
+              <Heading as="h3" fontSize="1xl">
+                🏆 {name}
+              </Heading>
+              <Text>{description}</Text>
+              <HStack>
+                <Progress
+                  borderRadius="full"
+                  flex={1}
+                  max={1}
+                  value={progress}
+                ></Progress>
+                <Text fontSize="xs" textAlign="end">
+                  {formattedValue} / {formattedMaxValue} {unit}
+                </Text>
+              </HStack>
+            </MotionBox>
+          )
+        )}
       </SimpleGrid>
     </VStack>
   );
