@@ -15,7 +15,7 @@ export default [
     formatValue: (value) => value,
   },
   {
-    name: "Seven Worlds",
+    name: "Seven Corners",
     description: `Visit all continents`,
     min: 0,
     max: continentCount,
