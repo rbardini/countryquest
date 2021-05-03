@@ -38,7 +38,13 @@ export default function Content() {
   visitedCountriesData.sort(nameCompare);
 
   return (
-    <Grid gap={8} padding={8} templateColumns={{ lg: "1fr 1fr" }}>
+    <Grid
+      gap={8}
+      marginInline="auto"
+      maxInlineSize="container.xl"
+      padding={8}
+      templateColumns={{ lg: "1fr 1fr" }}
+    >
       <GridItem colSpan={{ lg: 2 }}>
         <WorldMap
           ref={worldMapRef}
