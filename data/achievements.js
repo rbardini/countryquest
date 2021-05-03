@@ -35,6 +35,19 @@ export default [
     unit: "km²",
   },
   {
+    name: "New World",
+    description: "Visit all countries in the Americas",
+    min: 0,
+    max: continents.NA.countries.length + continents.SA.countries.length,
+    value: (data) =>
+      data.filter(
+        ({ id }) =>
+          continents.NA.countries.includes(id) ||
+          continents.SA.countries.includes(id)
+      ).length,
+    formatValue: (value) => value,
+  },
+  {
     name: "Ice Wall",
     description: `Visit Antarctica`,
     min: 0,
