@@ -1,6 +1,7 @@
 import { Box, Divider } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import Footer from "../components/footer";
 import Header from "../components/header";
 
 const Content = dynamic(() => import("../components/content"), {
@@ -17,6 +18,8 @@ export default function Home() {
       <Header />
       <Divider />
       <Content />
+      <Divider />
+      <Footer />
     </Box>
   );
 }
