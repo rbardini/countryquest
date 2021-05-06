@@ -21,9 +21,11 @@ export default function Header() {
           beta
         </Badge>
       </Heading>
-      <Button colorScheme="blue" variant="outline">
-        Sign in
-      </Button>
+      {false && (
+        <Button colorScheme="blue" variant="outline">
+          Sign in
+        </Button>
+      )}
     </Flex>
   );
 }
