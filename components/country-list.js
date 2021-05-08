@@ -9,6 +9,7 @@ import {
   VStack,
   Wrap,
   WrapItem,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { countryCodeEmoji } from "country-code-emoji";
 import { motion } from "framer-motion";
@@ -21,11 +22,13 @@ export default function CountryList({
   unvisitedCountriesData,
   visitedCountriesData,
 }) {
+  const countColor = useColorModeValue("gray.300", "gray.600");
+
   return (
     <VStack align="stretch">
       <Heading>
         Visited countries{" "}
-        <Text as="i" color="gray.300">
+        <Text as="i" color={countColor}>
           {visitedCountriesData.length}
         </Text>
       </Heading>
@@ -46,7 +49,7 @@ export default function CountryList({
               borderRadius="full"
               color="gray.500"
               icon={<SmallAddIcon />}
-              iconColor="gray.300"
+              iconColor={countColor}
               maxWidth="13ch"
               onChange={({ target }) => onCountryAdd(target.value)}
               placeholder="Add country"

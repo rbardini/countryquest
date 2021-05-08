@@ -6,6 +6,7 @@ import {
   SimpleGrid,
   Text,
   VStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import achievements from "../data/achievements";
@@ -38,7 +39,7 @@ export default function Achievements({ visitedCountriesData }) {
     <VStack align="stretch">
       <Heading>
         Achievements{" "}
-        <Text as="i" color="gray.300">
+        <Text as="i" color={useColorModeValue("gray.300", "gray.600")}>
           {completedCount}
         </Text>
       </Heading>

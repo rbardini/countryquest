@@ -1,11 +1,14 @@
-import { Box, Link, Text } from "@chakra-ui/react";
+import { Box, Link, Text, useColorModeValue } from "@chakra-ui/react";
 
 export default function Footer() {
   return (
-    <Box backgroundColor="gray.50" padding={8}>
+    <Box backgroundColor={useColorModeValue("gray.50", "gray.700")} padding={8}>
       <Text align="center">
         Made with ❤️ by{" "}
-        <Link color="blue.500" href="https://rbardini.com/">
+        <Link
+          color={useColorModeValue("blue.500", "blue.200")}
+          href="https://rbardini.com/"
+        >
           Rafael Bardini
         </Link>
       </Text>

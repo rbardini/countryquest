@@ -1,5 +1,4 @@
 import { useLayoutEffect, useRef } from "react";
-import { useToken } from "@chakra-ui/react";
 import { MouseCursorStyle, color, create } from "@amcharts/amcharts4/core";
 import {
   MapChart,
@@ -8,14 +7,14 @@ import {
   projections,
 } from "@amcharts/amcharts4/maps";
 import geodata from "../data/geodata";
+import useColorModeToken from "./use-color-mode-token";
 
 export default function useChart(containerRef, countriesData, onCountryClick) {
-  const [white, gray100, gray200, blue500] = useToken("colors", [
-    "white",
-    "gray.100",
-    "gray.200",
-    "blue.500",
-  ]);
+  const white = useColorModeToken("colors", "white", "gray.800");
+  const gray100 = useColorModeToken("colors", "gray.100", "gray.700");
+  const gray200 = useColorModeToken("colors", "gray.200", "gray.600");
+  const blue500 = useColorModeToken("colors", "blue.500", "blue.200");
+
   const chartRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -49,6 +48,7 @@ export default function useChart(containerRef, countriesData, onCountryClick) {
     template.tooltipText = "{name}";
     template.cursorOverStyle = MouseCursorStyle.pointer;
     template.fill = color(gray100);
+    template.stroke = color(gray200);
     template.events.on("hit", ({ target: { dataItem } }) => {
       dataItem.value ^= 1;
       onCountryClick(dataItem.dataContext.id);
@@ -63,7 +63,7 @@ export default function useChart(containerRef, countriesData, onCountryClick) {
       chart.dispose();
       chartRef.current = null;
     };
-  }, []);
+  }, [white, gray100, gray200, blue500]);
 
   return chartRef;
 }

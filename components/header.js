@@ -1,12 +1,22 @@
-import { Badge, Button, Flex, Heading, useToken } from "@chakra-ui/react";
+import {
+  Badge,
+  Button,
+  ButtonGroup,
+  Flex,
+  Heading,
+  IconButton,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 export default function Header() {
-  const [purple500, pink500] = useToken("colors", ["purple.500", "pink.500"]);
+  const { toggleColorMode } = useColorMode();
 
   return (
     <Flex
       alignItems="center"
-      backgroundColor="gray.50"
+      backgroundColor={useColorModeValue("gray.50", "gray.700")}
       flexDirection="row"
       justifyContent="space-between"
       padding={8}
@@ -14,18 +24,35 @@ export default function Header() {
       <Heading
         as="h1"
         bgClip="text"
-        bgGradient={`linear(to-l, ${purple500}, ${pink500})`}
+        bgGradient={useColorModeValue(
+          "linear(to-l, purple.500, pink.500)",
+          "linear(to-l, pink.400, purple.400)"
+        )}
       >
         Countryquest{" "}
-        <Badge colorScheme="purple" variant="solid" verticalAlign="super">
+        <Badge
+          colorScheme={useColorModeValue("purple", "pink")}
+          variant="solid"
+          verticalAlign="super"
+        >
           beta
         </Badge>
       </Heading>
-      {false && (
-        <Button colorScheme="blue" variant="outline">
-          Sign in
-        </Button>
-      )}
+      <ButtonGroup>
+        <IconButton
+          aria-label={`Switch to ${useColorModeValue("dark", "light")} mode`}
+          colorScheme={useColorModeValue("purple", "yellow")}
+          icon={useColorModeValue(<MoonIcon />, <SunIcon />)}
+          isRound
+          onClick={toggleColorMode}
+          variant="ghost"
+        ></IconButton>
+        {false && (
+          <Button colorScheme="blue" variant="outline">
+            Sign in
+          </Button>
+        )}
+      </ButtonGroup>
     </Flex>
   );
 }
