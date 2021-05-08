@@ -16,24 +16,25 @@ import { motion } from "framer-motion";
 
 const MotionWrapItem = motion(WrapItem);
 
-export default function CountryList({
+export default function Countries({
+  excludedCountriesData,
+  includedCountriesData,
   onCountryAdd,
   onCountryRemove,
-  unvisitedCountriesData,
-  visitedCountriesData,
+  title,
 }) {
   const countColor = useColorModeValue("gray.300", "gray.600");
 
   return (
     <VStack align="stretch">
       <Heading>
-        Visited countries{" "}
+        {title}{" "}
         <Text as="i" color={countColor}>
-          {visitedCountriesData.length}
+          {includedCountriesData.length}
         </Text>
       </Heading>
       <Wrap>
-        {visitedCountriesData.map(({ id, name }) => (
+        {includedCountriesData.map(({ id, name }) => (
           <MotionWrapItem key={id} layout="position">
             <Tag size="lg" borderRadius="full">
               <TagLabel>
@@ -43,7 +44,7 @@ export default function CountryList({
             </Tag>
           </MotionWrapItem>
         ))}
-        {unvisitedCountriesData.length > 0 && (
+        {excludedCountriesData.length > 0 && (
           <MotionWrapItem layout="position">
             <Select
               borderRadius="full"
@@ -56,7 +57,7 @@ export default function CountryList({
               size="sm"
               value=""
             >
-              {unvisitedCountriesData.map(({ id, name }) => (
+              {excludedCountriesData.map(({ id, name }) => (
                 <option key={id} value={id}>
                   {countryCodeEmoji(id)} {name}
                 </option>
