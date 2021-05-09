@@ -1,48 +1,52 @@
 import {
   Box,
+  Flex,
+  FormControl,
+  FormLabel,
   Heading,
   HStack,
   Progress,
   SimpleGrid,
+  Switch,
   Text,
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import achievements from "../data/achievements";
+import { useState } from "react";
+import useAchievements from "../hooks/use-achievements";
 
 const MotionHStack = motion(HStack);
 
-export default function Achievements({ visitedCountriesData }) {
-  const formattedAchievements = achievements
-    .map((achievement) => {
-      const value = achievement.value(visitedCountriesData);
-      const progress = value / achievement.max;
-      const completed = progress === 1;
-
-      return {
-        ...achievement,
-        completed,
-        formattedMaxValue: achievement.formatValue(achievement.max),
-        formattedValue: achievement.formatValue(value),
-        progress,
-        value,
-      };
-    })
-    .sort((a, b) => b.progress - a.progress);
-
-  const completedCount = formattedAchievements.filter(
-    ({ completed }) => completed
-  ).length;
+export default function Achievements({
+  combinedCountriesData,
+  visitedCountriesData,
+}) {
+  const [includeWishes, setIncludeWishes] = useState(false);
+  const [formattedAchievements, completedCount] = useAchievements(
+    includeWishes ? combinedCountriesData : visitedCountriesData
+  );
 
   return (
     <VStack align="stretch">
-      <Heading>
-        Achievements{" "}
-        <Text as="i" color={useColorModeValue("gray.300", "gray.600")}>
-          {completedCount}
-        </Text>
-      </Heading>
+      <Flex wrap="wrap" justifyContent="space-between">
+        <Heading>
+          Achievements{" "}
+          <Text as="i" color={useColorModeValue("gray.300", "gray.600")}>
+            {completedCount}
+          </Text>
+        </Heading>
+        <FormControl alignItems="center" display="flex" width="auto">
+          <FormLabel htmlFor="incl-wishes" marginBlock="0">
+            Include wishes
+          </FormLabel>
+          <Switch
+            id="incl-wishes"
+            isChecked={includeWishes}
+            onChange={({ target }) => setIncludeWishes(target.checked)}
+          />
+        </FormControl>
+      </Flex>
       <SimpleGrid minChildWidth="20em" spacing={2}>
         {formattedAchievements.map(
           ({
@@ -73,7 +77,8 @@ export default function Achievements({ visitedCountriesData }) {
                 <HStack>
                   <Progress
                     borderRadius="full"
-                    flex={1}
+                    flex="1"
+                    hasStripe={includeWishes}
                     max={1}
                     value={progress}
                   ></Progress>

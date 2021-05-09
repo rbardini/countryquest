@@ -14,6 +14,9 @@ export default function Content() {
     visits
   );
   const [wishedCountriesData, unwishedCountriesData] = useCountriesData(wishes);
+  const [combinedCountriesData] = useCountriesData(
+    new Set([...visits, ...wishes])
+  );
 
   const toggleMapCountry = (id) => worldMapRef.current?.toggle(id);
 
@@ -45,7 +48,10 @@ export default function Content() {
         </VStack>
       </GridItem>
       <GridItem>
-        <Achievements visitedCountriesData={visitedCountriesData} />
+        <Achievements
+          combinedCountriesData={combinedCountriesData}
+          visitedCountriesData={visitedCountriesData}
+        />
       </GridItem>
     </Grid>
   );
