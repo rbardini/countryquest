@@ -1,6 +1,7 @@
 import area from "./area";
 import continents from "./continents";
 import geodata from "./geodata";
+import population from "./population";
 
 const countryCount = geodata.features.length;
 const continentCount = Object.keys(continents).length;
@@ -33,6 +34,14 @@ export default [
         notation: "compact",
       }),
     unit: "km²",
+  },
+  {
+    name: "Popular Demand",
+    description: "Visit everyone's home country",
+    min: 0,
+    max: population,
+    value: (data) => data.reduce((acc, { population }) => acc + population, 0),
+    formatValue: (value) => value.toLocaleString("en", { notation: "compact" }),
   },
   {
     name: "New World",
