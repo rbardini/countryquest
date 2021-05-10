@@ -15,7 +15,7 @@ export default forwardRef(function WorldMap(
   useImperativeHandle(ref, () => chartRef.current);
 
   return (
-    <AspectRatio marginInline="auto" maxInlineSize="120vh" ratio={2 / 1}>
+    <AspectRatio ratio={21 / 9}>
       <Box ref={containerRef} />
     </AspectRatio>
   );
