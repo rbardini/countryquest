@@ -16,7 +16,6 @@ export default function Header() {
   return (
     <Flex
       alignItems="center"
-      backgroundColor={useColorModeValue("gray.50", "gray.700")}
       flexDirection="row"
       justifyContent="space-between"
       padding={8}

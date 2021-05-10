@@ -2,7 +2,7 @@ import { Box, Link, Text, useColorModeValue } from "@chakra-ui/react";
 
 export default function Footer() {
   return (
-    <Box backgroundColor={useColorModeValue("gray.50", "gray.700")} padding={8}>
+    <Box padding={8}>
       <Text align="center">
         Made with ❤️ by{" "}
         <Link
