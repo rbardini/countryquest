@@ -59,7 +59,7 @@ export default function Countries({
             >
               {excludedCountriesData.map(({ id, name }) => (
                 <option key={id} value={id}>
-                  {countryCodeEmoji(id)} {name}
+                  {name}
                 </option>
               ))}
             </Select>
