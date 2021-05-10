@@ -13,6 +13,7 @@ export default function useChart(containerRef, countriesData, onCountryClick) {
   const white = useColorModeToken("colors", "white", "gray.800");
   const gray100 = useColorModeToken("colors", "gray.100", "gray.700");
   const gray200 = useColorModeToken("colors", "gray.200", "gray.600");
+  const gray300 = useColorModeToken("colors", "gray.300", "gray.500");
   const blue500 = useColorModeToken("colors", "blue.500", "blue.200");
 
   const chartRef = useRef(null);
@@ -23,6 +24,7 @@ export default function useChart(containerRef, countriesData, onCountryClick) {
       button.background.fill = color(white);
       button.background.stroke = color(gray100);
       button.background.states.getKey("hover").properties.fill = color(gray200);
+      button.background.states.getKey("down").properties.fill = color(gray300);
       button.stroke = color(blue500);
     });
 
