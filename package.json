@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "restcountries": "curl https://restcountries.eu/rest/v2/all | jq 'INDEX(.alpha2Code)' > data/restcountries.json",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
