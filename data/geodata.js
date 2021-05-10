@@ -25,23 +25,25 @@ const um = {
 module.exports = {
   ...worldLowGeodata,
   // Omit countries without data and add merged U.S. Minor Outlying Islands
-  features: [...rest.filter(({ id }) => countries2[id]), um].map(
-    // Add continent information
-    (feature) => {
-      const {
-        continent: continentName,
-        continent_code: continentId,
-      } = countries2[feature.id];
+  features: [...rest.filter(({ id }) => countries2[id]), um]
+    .map(
+      // Add continent information
+      (feature) => {
+        const {
+          continent: continentName,
+          continent_code: continentId,
+        } = countries2[feature.id];
 
-      return {
-        ...feature,
-        properties: {
-          ...feature.properties,
-          area: geojsonArea.geometry(feature.geometry),
-          continentId,
-          continentName,
-        },
-      };
-    }
-  ),
+        return {
+          ...feature,
+          properties: {
+            ...feature.properties,
+            area: geojsonArea.geometry(feature.geometry),
+            continentId,
+            continentName,
+          },
+        };
+      }
+    )
+    .sort((a, b) => a.properties.name.localeCompare(b.properties.name)),
 };
