@@ -9,19 +9,19 @@
     "start": "next start"
   },
   "dependencies": {
-    "@amcharts/amcharts4": "4.10.17",
-    "@amcharts/amcharts4-geodata": "4.1.19",
-    "@chakra-ui/icons": "1.0.12",
-    "@chakra-ui/react": "1.6.0",
-    "@emotion/react": "11.1.5",
+    "@amcharts/amcharts4": "4.10.18",
+    "@amcharts/amcharts4-geodata": "4.1.20",
+    "@chakra-ui/icons": "1.0.13",
+    "@chakra-ui/react": "1.6.1",
+    "@emotion/react": "11.4.0",
     "@emotion/styled": "11.3.0",
-    "@fontsource/dosis": "4.2.2",
+    "@fontsource/dosis": "4.3.0",
     "@mapbox/geojson-area": "0.2.2",
     "country-code-emoji": "2.2.0",
-    "framer-motion": "4.1.9",
-    "next": "10.0.9",
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "framer-motion": "4.1.14",
+    "next": "10.2.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
     "babel-plugin-preval": "5.0.0"
