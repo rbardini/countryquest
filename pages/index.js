@@ -6,6 +6,7 @@ import Header from "../components/header";
 
 const Content = dynamic(() => import("../components/content"), {
   ssr: false,
+  // eslint-disable-next-line react/display-name
   loading: () => (
     <Center blockSize="80vh">
       <Spinner color="gray.300" size="xl" />

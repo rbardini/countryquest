@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "restcountries": "curl https://restcountries.eu/rest/v2/all | jq 'INDEX(.alpha2Code)' > data/restcountries.json",
+    "lint": "next lint",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
@@ -24,6 +25,8 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "babel-plugin-preval": "5.0.0"
+    "babel-plugin-preval": "5.0.0",
+    "eslint": "7.28.0",
+    "eslint-config-next": "11.0.0"
   }
 }
