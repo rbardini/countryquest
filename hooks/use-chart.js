@@ -65,7 +65,7 @@ export default function useChart(containerRef, countriesData, onCountryClick) {
       chart.dispose();
       chartRef.current = null;
     };
-  }, [white, gray100, gray200, blue500]);
+  }, [containerRef, onCountryClick, white, gray100, gray200, gray300, blue500]);
 
   return chartRef;
 }
