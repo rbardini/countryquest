@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "restcountries": "curl https://restcountries.eu/rest/v2/all | jq 'INDEX(.alpha2Code)' > data/restcountries.json",
+    "prepare": "husky install",
     "format": "prettier --ignore-path .gitignore --write .",
     "format:check": "prettier --ignore-path .gitignore --check .",
     "lint": "next lint",
@@ -31,6 +32,8 @@
     "eslint": "7.32.0",
     "eslint-config-next": "11.0.1",
     "eslint-config-prettier": "8.3.0",
+    "husky": "7.0.1",
+    "lint-staged": "11.1.2",
     "prettier": "2.3.2",
     "prettier-plugin-organize-imports": "2.3.3",
     "prettier-plugin-packagejson": "2.2.11"
