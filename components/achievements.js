@@ -9,30 +9,30 @@ import {
   SimpleGrid,
   Switch,
   Text,
-  VStack,
   useColorModeValue,
-} from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import { useState } from "react";
-import useAchievements from "../hooks/use-achievements";
+  VStack,
+} from '@chakra-ui/react'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import useAchievements from '../hooks/use-achievements'
 
-const MotionHStack = motion(HStack);
+const MotionHStack = motion(HStack)
 
 export default function Achievements({
   combinedCountriesData,
   visitedCountriesData,
 }) {
-  const [includeWishes, setIncludeWishes] = useState(false);
+  const [includeWishes, setIncludeWishes] = useState(false)
   const [formattedAchievements, completedCount] = useAchievements(
-    includeWishes ? combinedCountriesData : visitedCountriesData
-  );
+    includeWishes ? combinedCountriesData : visitedCountriesData,
+  )
 
   return (
     <VStack align="stretch">
       <Flex wrap="wrap" justifyContent="space-between">
         <Heading>
-          Achievements{" "}
-          <Text as="i" color={useColorModeValue("gray.300", "gray.600")}>
+          Achievements{' '}
+          <Text as="i" color={useColorModeValue('gray.300', 'gray.600')}>
             {completedCount}
           </Text>
         </Heading>
@@ -88,9 +88,9 @@ export default function Achievements({
                 </HStack>
               </Box>
             </MotionHStack>
-          )
+          ),
         )}
       </SimpleGrid>
     </VStack>
-  );
+  )
 }

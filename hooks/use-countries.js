@@ -1,19 +1,19 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react'
 
 export default function useCountries(storageKey) {
   const [countries, setCountries] = useState(
-    new Set(JSON.parse(localStorage.getItem(storageKey)))
-  );
+    new Set(JSON.parse(localStorage.getItem(storageKey))),
+  )
 
   const toggleCountry = useCallback(
-    (id) =>
-      setCountries((countries) => {
-        countries.delete(id) || countries.add(id);
-        localStorage.setItem(storageKey, JSON.stringify([...countries]));
-        return new Set(countries);
+    id =>
+      setCountries(countries => {
+        countries.delete(id) || countries.add(id)
+        localStorage.setItem(storageKey, JSON.stringify([...countries]))
+        return new Set(countries)
       }),
-    [storageKey]
-  );
+    [storageKey],
+  )
 
-  return [countries, toggleCountry];
+  return [countries, toggleCountry]
 }

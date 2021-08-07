@@ -1,13 +1,13 @@
-import { useMemo } from "react";
-import achievements from "../data/achievements";
+import { useMemo } from 'react'
+import achievements from '../data/achievements'
 
 export default function useAchievements(countriesData) {
   return useMemo(() => {
     const [formattedAchievements, completedCount] = achievements.reduce(
       (acc, achievement) => {
-        const value = achievement.value(countriesData);
-        const progress = value / achievement.max;
-        const completed = progress === 1;
+        const value = achievement.value(countriesData)
+        const progress = value / achievement.max
+        const completed = progress === 1
 
         acc[0].push({
           ...achievement,
@@ -16,17 +16,17 @@ export default function useAchievements(countriesData) {
           formattedValue: achievement.formatValue(value),
           progress,
           value,
-        });
-        acc[1] += completed;
+        })
+        acc[1] += completed
 
-        return acc;
+        return acc
       },
-      [[], 0]
-    );
+      [[], 0],
+    )
 
     return [
       formattedAchievements.sort((a, b) => b.progress - a.progress),
       completedCount,
-    ];
-  }, [countriesData]);
+    ]
+  }, [countriesData])
 }

@@ -1,4 +1,4 @@
-import { SmallAddIcon } from "@chakra-ui/icons";
+import { SmallAddIcon } from '@chakra-ui/icons'
 import {
   Heading,
   Select,
@@ -6,15 +6,15 @@ import {
   TagCloseButton,
   TagLabel,
   Text,
+  useColorModeValue,
   VStack,
   Wrap,
   WrapItem,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { countryCodeEmoji } from "country-code-emoji";
-import { motion } from "framer-motion";
+} from '@chakra-ui/react'
+import { countryCodeEmoji } from 'country-code-emoji'
+import { motion } from 'framer-motion'
 
-const MotionWrapItem = motion(WrapItem);
+const MotionWrapItem = motion(WrapItem)
 
 export default function Countries({
   excludedCountriesData,
@@ -23,12 +23,12 @@ export default function Countries({
   onCountryRemove,
   title,
 }) {
-  const countColor = useColorModeValue("gray.300", "gray.600");
+  const countColor = useColorModeValue('gray.300', 'gray.600')
 
   return (
     <VStack align="stretch">
       <Heading>
-        {title}{" "}
+        {title}{' '}
         <Text as="i" color={countColor}>
           {includedCountriesData.length}
         </Text>
@@ -67,5 +67,5 @@ export default function Countries({
         )}
       </Wrap>
     </VStack>
-  );
+  )
 }

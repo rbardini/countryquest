@@ -1,11 +1,11 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme } from '@chakra-ui/react'
 
 export default extendTheme({
   config: {
-    initialColorMode: "system",
+    initialColorMode: 'system',
   },
   fonts: {
-    heading: "DosisVariable, sans-serif",
-    body: "DosisVariable, sans-serif",
+    heading: 'DosisVariable, sans-serif',
+    body: 'DosisVariable, sans-serif',
   },
-});
+})

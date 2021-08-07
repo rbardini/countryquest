@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import geodata from "../data/geodata";
+import { useMemo } from 'react'
+import geodata from '../data/geodata'
 
 export default function useCountriesData(countries) {
   return useMemo(
@@ -7,8 +7,8 @@ export default function useCountriesData(countries) {
       geodata.features.reduce(
         (acc, { id, properties }) =>
           acc[+!countries.has(id)].push(properties) && acc,
-        [[], []]
+        [[], []],
       ),
-    [countries]
-  );
+    [countries],
+  )
 }
