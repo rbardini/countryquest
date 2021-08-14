@@ -1,7 +1,6 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import {
   Badge,
-  Button,
   ButtonGroup,
   Flex,
   Heading,
@@ -9,8 +8,9 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react'
+import Account from '../components/account'
 
-export default function Header() {
+export default function Header({ session }) {
   const { toggleColorMode } = useColorMode()
 
   return (
@@ -46,11 +46,7 @@ export default function Header() {
           onClick={toggleColorMode}
           variant="ghost"
         ></IconButton>
-        {false && (
-          <Button colorScheme="blue" variant="outline">
-            Sign in
-          </Button>
-        )}
+        <Account session={session} />
       </ButtonGroup>
     </Flex>
   )
