@@ -25,6 +25,7 @@
     "@fontsource/dosis": "4.5.0",
     "@mapbox/geojson-area": "0.2.2",
     "@supabase/supabase-js": "1.21.0",
+    "boring-avatars": "1.5.8",
     "country-code-emoji": "2.3.0",
     "framer-motion": "4.1.17",
     "next": "11.0.1",

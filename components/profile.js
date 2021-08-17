@@ -1,5 +1,4 @@
 import {
-  Avatar,
   IconButton,
   Menu,
   MenuButton,
@@ -8,17 +7,16 @@ import {
   MenuList,
 } from '@chakra-ui/react'
 import supabase from '../lib/supabase'
+import Avatar from './avatar'
 
-export default function Profile({ session }) {
-  const { email } = session.user
-
+export default function Profile({ user }) {
   return (
     <Menu>
       <MenuButton as={IconButton} isRound>
-        <Avatar size="sm" name={email} />
+        <Avatar user={user} />
       </MenuButton>
       <MenuList>
-        <MenuGroup title={email}>
+        <MenuGroup title={user.email}>
           <MenuItem onClick={() => supabase.auth.signOut()}>Sign out</MenuItem>
         </MenuGroup>
       </MenuList>
