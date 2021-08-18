@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react'
 import Account from '../components/account'
 
-export default function Header({ session }) {
+export default function Header() {
   const { toggleColorMode } = useColorMode()
 
   return (
@@ -46,7 +46,7 @@ export default function Header({ session }) {
           onClick={toggleColorMode}
           variant="ghost"
         ></IconButton>
-        <Account session={session} />
+        <Account />
       </ButtonGroup>
     </Flex>
   )

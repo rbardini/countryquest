@@ -1,10 +1,8 @@
 import { Box, Center, Divider, Spinner } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
 import Footer from '../components/footer'
 import Header from '../components/header'
-import supabase from '../lib/supabase'
 
 const Content = dynamic(() => import('../components/content'), {
   ssr: false,
@@ -17,16 +15,6 @@ const Content = dynamic(() => import('../components/content'), {
 })
 
 export default function Home() {
-  const [session, setSession] = useState()
-
-  useEffect(() => {
-    setSession(supabase.auth.session())
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-  }, [])
-
   return (
     <Box>
       <Head>
@@ -36,7 +24,7 @@ export default function Home() {
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>"
         ></link>
       </Head>
-      <Header session={session} />
+      <Header />
       <Divider />
       <Content />
       <Divider />
