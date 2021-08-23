@@ -9,7 +9,12 @@ import { useLayoutEffect, useRef } from 'react'
 import geodata from '../data/geodata'
 import useColorModeToken from './use-color-mode-token'
 
-export default function useChart(containerRef, countriesData, onCountryClick) {
+export default function useChart(
+  containerRef,
+  countriesData,
+  onCountryAdd,
+  onCountryRemove,
+) {
   const white = useColorModeToken('colors', 'white', 'gray.800')
   const gray100 = useColorModeToken('colors', 'gray.100', 'gray.700')
   const gray200 = useColorModeToken('colors', 'gray.200', 'gray.600')
@@ -51,9 +56,15 @@ export default function useChart(containerRef, countriesData, onCountryClick) {
     template.cursorOverStyle = MouseCursorStyle.pointer
     template.fill = color(gray100)
     template.stroke = color(gray200)
-    template.events.on('hit', ({ target: { dataItem } }) => {
-      dataItem.value ^= 1
-      onCountryClick(dataItem.dataContext.id)
+    template.events.on('hit', async ({ target: { dataItem } }) => {
+      const { id } = dataItem.dataContext
+      const added = (dataItem.value ^= 1)
+
+      const { error } = added
+        ? await onCountryAdd(id)
+        : await onCountryRemove(id)
+
+      if (error) dataItem.value ^= 1
     })
 
     chartRef.current = {
@@ -65,7 +76,16 @@ export default function useChart(containerRef, countriesData, onCountryClick) {
       chart.dispose()
       chartRef.current = null
     }
-  }, [containerRef, onCountryClick, white, gray100, gray200, gray300, blue500])
+  }, [
+    containerRef,
+    onCountryAdd,
+    onCountryRemove,
+    white,
+    gray100,
+    gray200,
+    gray300,
+    blue500,
+  ])
 
   return chartRef
 }

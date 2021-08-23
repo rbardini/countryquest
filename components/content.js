@@ -1,4 +1,12 @@
-import { Box, Divider, Grid, GridItem, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Center,
+  Divider,
+  Grid,
+  GridItem,
+  Spinner,
+  VStack,
+} from '@chakra-ui/react'
 import { useRef } from 'react'
 import useCountries from '../hooks/use-countries'
 import useCountriesData from '../hooks/use-countries-data'
@@ -8,22 +16,31 @@ import WorldMap from './world-map'
 
 export default function Content() {
   const worldMapRef = useRef(null)
-  const [visits, toggleVisit] = useCountries('visits')
-  const [wishes, toggleWish] = useCountries('wishes')
-  const [visitedCountriesData, unvisitedCountriesData] =
-    useCountriesData(visits)
-  const [wishedCountriesData, unwishedCountriesData] = useCountriesData(wishes)
+  const [visits, addVisit, removeVisit] = useCountries('visits')
+  const [wishes, addWish, removeWish] = useCountries('wishes')
+  const [visitedCountriesData, unvisitedCountriesData] = useCountriesData(
+    visits.countries,
+  )
+  const [wishedCountriesData, unwishedCountriesData] = useCountriesData(
+    wishes.countries,
+  )
   const [combinedCountriesData] = useCountriesData(
-    new Set([...visits, ...wishes]),
+    new Set([...visits.countries, ...wishes.countries]),
   )
 
+  const isLoading = visits.loading || wishes.loading
   const toggleMapCountry = id => worldMapRef.current?.toggle(id)
 
-  return (
+  return isLoading ? (
+    <Center blockSize="80vh">
+      <Spinner color="gray.300" size="xl" />
+    </Center>
+  ) : (
     <Box>
       <WorldMap
         ref={worldMapRef}
-        onCountryClick={toggleVisit}
+        onCountryAdd={addVisit}
+        onCountryRemove={removeVisit}
         visitedCountriesData={visitedCountriesData}
       />
       <Divider />
@@ -40,8 +57,8 @@ export default function Content() {
             <Countries
               excludedCountriesData={unwishedCountriesData}
               includedCountriesData={wishedCountriesData}
-              onCountryAdd={toggleWish}
-              onCountryRemove={toggleWish}
+              onCountryAdd={addWish}
+              onCountryRemove={removeWish}
               title="Travel wishlist"
             />
           </VStack>

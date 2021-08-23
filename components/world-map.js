@@ -3,11 +3,16 @@ import { forwardRef, useImperativeHandle, useRef } from 'react'
 import useChart from '../hooks/use-chart'
 
 export default forwardRef(function WorldMap(
-  { onCountryClick, visitedCountriesData },
+  { onCountryAdd, onCountryRemove, visitedCountriesData },
   ref,
 ) {
   const containerRef = useRef(null)
-  const chartRef = useChart(containerRef, visitedCountriesData, onCountryClick)
+  const chartRef = useChart(
+    containerRef,
+    visitedCountriesData,
+    onCountryAdd,
+    onCountryRemove,
+  )
   useImperativeHandle(ref, () => chartRef.current)
 
   return (
