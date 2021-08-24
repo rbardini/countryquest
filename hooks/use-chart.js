@@ -20,7 +20,6 @@ export default function useChart(
   const gray200 = useColorModeToken('colors', 'gray.200', 'gray.600')
   const gray300 = useColorModeToken('colors', 'gray.300', 'gray.500')
   const blue500 = useColorModeToken('colors', 'blue.500', 'blue.200')
-
   const chartRef = useRef(null)
 
   useLayoutEffect(() => {
@@ -76,6 +75,9 @@ export default function useChart(
       chart.dispose()
       chartRef.current = null
     }
+
+    // Ignore `countriesData` dependency
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     containerRef,
     onCountryAdd,

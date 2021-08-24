@@ -6,7 +6,7 @@ import population from './population'
 const countryCount = geodata.features.length
 const continentCount = Object.keys(continents).length
 
-export default [
+const achievements = [
   {
     name: 'Travelling Salesman',
     description: `Visit all countries`,
@@ -65,3 +65,5 @@ export default [
     formatValue: value => value,
   },
 ]
+
+export default achievements
