@@ -55,6 +55,7 @@ export default function useChart(
     template.cursorOverStyle = MouseCursorStyle.pointer
     template.fill = color(gray100)
     template.stroke = color(gray200)
+    template.states.create('hover').properties.opacity = 0.6
     template.events.on('hit', async ({ target: { dataItem } }) => {
       const { id } = dataItem.dataContext
       const added = (dataItem.value ^= 1)
