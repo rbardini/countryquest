@@ -1,4 +1,4 @@
-import { useColorMode, useToken } from '@chakra-ui/react'
+import { useColorModeValue, useToken } from '@chakra-ui/react'
 
 export default function useColorModeToken(
   scale,
@@ -6,11 +6,7 @@ export default function useColorModeToken(
   darkToken,
   fallback,
 ) {
-  const { colorMode } = useColorMode()
+  const token = useColorModeValue(lightToken, darkToken)
 
-  return useToken(
-    scale,
-    colorMode === 'light' ? lightToken : darkToken,
-    fallback,
-  )
+  return useToken(scale, token, fallback)
 }
