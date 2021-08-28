@@ -4,7 +4,7 @@ import AuthProvider from '../components/auth-provider'
 import CountriesProvider from '../components/countries-provider'
 import theme from '../theme'
 
-function MyApp({ Component, pageProps }) {
+function App({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>
@@ -16,4 +16,4 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
-export default MyApp
+export default App
