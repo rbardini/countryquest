@@ -8,16 +8,17 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { useRef } from 'react'
-import useCountries from '../hooks/use-countries'
 import useCountriesData from '../hooks/use-countries-data'
+import useVisits from '../hooks/use-visits'
+import useWishes from '../hooks/use-wishes'
 import Achievements from './achievements'
 import Countries from './countries'
 import WorldMap from './world-map'
 
 export default function Content() {
   const worldMapRef = useRef(null)
-  const [visits, addVisit, removeVisit] = useCountries('visits')
-  const [wishes, addWish, removeWish] = useCountries('wishes')
+  const [visits, addVisit, removeVisit] = useVisits()
+  const [wishes, addWish, removeWish] = useWishes()
   const [visitedCountriesData, unvisitedCountriesData] = useCountriesData(
     visits.countries,
   )
