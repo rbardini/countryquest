@@ -1,11 +1,22 @@
-import area from './area'
-import continents from './continents'
-import geodata from './geodata'
+import area from '../data/area'
+import continents from '../data/continents'
+import geodata from '../data/geodata'
+import { CountryData } from '../hooks/use-countries-data'
 
 const countryCount = geodata.features.length
 const continentCount = Object.keys(continents).length
 
-const achievements = [
+export type Achievement = {
+  name: string
+  description: string
+  min: number
+  max: number
+  value: (data: CountryData[]) => number
+  formatValue: (number: number) => string | number
+  unit?: string
+}
+
+const achievements: Achievement[] = [
   {
     name: 'Travelling Salesman',
     description: `Visit all countries`,

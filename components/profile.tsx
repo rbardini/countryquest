@@ -6,10 +6,15 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
+import type { User } from '@supabase/supabase-js'
 import supabase from '../lib/supabase'
 import Avatar from './avatar'
 
-export default function Profile({ user }) {
+type Props = {
+  user: User
+}
+
+export default function Profile({ user }: Props) {
   return (
     <Menu>
       <MenuButton as={IconButton} isRound>

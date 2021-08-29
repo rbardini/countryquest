@@ -8,6 +8,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { useRef } from 'react'
+import type { ChartRef } from '../hooks/use-chart'
 import useCountriesData from '../hooks/use-countries-data'
 import useVisits from '../hooks/use-visits'
 import useWishes from '../hooks/use-wishes'
@@ -16,7 +17,7 @@ import Countries from './countries'
 import WorldMap from './world-map'
 
 export default function Content() {
-  const worldMapRef = useRef(null)
+  const worldMapRef = useRef<ChartRef>(null)
   const [visits, addVisit, removeVisit] = useVisits()
   const [wishes, addWish, removeWish] = useWishes()
   const [visitedCountriesData, unvisitedCountriesData] = useCountriesData(
@@ -30,7 +31,7 @@ export default function Content() {
   )
 
   const isLoading = visits.loading || wishes.loading
-  const toggleMapCountry = id => worldMapRef.current?.toggle(id)
+  const toggleMapCountry = (id: string) => worldMapRef.current?.toggle(id)
 
   return isLoading ? (
     <Center blockSize="80vh">

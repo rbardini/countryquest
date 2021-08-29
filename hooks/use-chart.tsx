@@ -5,30 +5,37 @@ import {
   projections,
   ZoomControl,
 } from '@amcharts/amcharts4/maps'
+import type { RefObject } from 'react'
 import { useLayoutEffect, useRef } from 'react'
 import geodata from '../data/geodata'
 import useColorModeToken from './use-color-mode-token'
+import type { CountryChangeHandler } from './use-countries'
+import type { CountryData } from './use-countries-data'
+
+export type ChartRef = { chart: MapChart; toggle: (id: string) => void }
 
 export default function useChart(
-  containerRef,
-  countriesData,
-  onCountryAdd,
-  onCountryRemove,
+  containerRef: RefObject<HTMLElement>,
+  countriesData: CountryData[],
+  onCountryAdd: CountryChangeHandler,
+  onCountryRemove: CountryChangeHandler,
 ) {
   const white = useColorModeToken('colors', 'white', 'gray.800')
   const gray100 = useColorModeToken('colors', 'gray.100', 'gray.700')
   const gray200 = useColorModeToken('colors', 'gray.200', 'gray.600')
   const gray300 = useColorModeToken('colors', 'gray.300', 'gray.500')
   const blue500 = useColorModeToken('colors', 'blue.500', 'blue.200')
-  const chartRef = useRef(null)
+  const chartRef = useRef<ChartRef>()
 
   useLayoutEffect(() => {
+    if (containerRef.current == null) return
+
     const zoomControl = new ZoomControl()
     ;[zoomControl.plusButton, zoomControl.minusButton].forEach(button => {
       button.background.fill = color(white)
       button.background.stroke = color(gray100)
-      button.background.states.getKey('hover').properties.fill = color(gray200)
-      button.background.states.getKey('down').properties.fill = color(gray300)
+      button.background.states.getKey('hover')!.properties.fill = color(gray200)
+      button.background.states.getKey('down')!.properties.fill = color(gray300)
       button.stroke = color(blue500)
     })
 
@@ -57,7 +64,7 @@ export default function useChart(
     template.stroke = color(gray200)
     template.states.create('hover').properties.opacity = 0.6
     template.events.on('hit', async ({ target: { dataItem } }) => {
-      const { id } = dataItem.dataContext
+      const { id } = dataItem.dataContext as CountryData
       const added = (dataItem.value ^= 1)
 
       const { error } = added
@@ -74,7 +81,7 @@ export default function useChart(
 
     return () => {
       chart.dispose()
-      chartRef.current = null
+      chartRef.current = undefined
     }
 
     // Ignore `countriesData` dependency

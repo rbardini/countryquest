@@ -14,34 +14,38 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { useRef, useState } from 'react'
+import type { FormEvent } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import supabase from '../lib/supabase'
 
 export default function SignIn() {
-  const emailFieldRef = useRef()
+  const emailFieldRef = useRef<HTMLInputElement>(null)
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const onFormSubmit = async event => {
-    event.preventDefault()
+  const onFormSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
 
-    setError('')
-    setMessage('')
-    setLoading(true)
+      setError('')
+      setMessage('')
+      setLoading(true)
 
-    const { error } = await supabase.auth.signIn({ email })
+      const { error } = await supabase.auth.signIn({ email })
 
-    if (error) {
-      setError(error.message)
-    } else {
-      setMessage('Check your email for the magic sign in link.')
-      setEmail('')
-    }
+      if (error) {
+        setError(error.message)
+      } else {
+        setMessage('Check your email for the magic sign in link.')
+        setEmail('')
+      }
 
-    setLoading(false)
-  }
+      setLoading(false)
+    },
+    [email],
+  )
 
   return (
     <Popover initialFocusRef={emailFieldRef} placement="bottom-end">

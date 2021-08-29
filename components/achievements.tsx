@@ -15,15 +15,21 @@ import {
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import useAchievements from '../hooks/use-achievements'
+import type { CountryData } from '../hooks/use-countries-data'
 
 const MotionHStack = motion(HStack)
+
+type Props = {
+  combinedCountriesData: CountryData[]
+  visitedCountriesData: CountryData[]
+}
 
 export default function Achievements({
   combinedCountriesData,
   visitedCountriesData,
-}) {
+}: Props) {
   const [includeWishes, setIncludeWishes] = useState(false)
-  const [formattedAchievements, completedCount] = useAchievements(
+  const [calculatedAchievements, completedCount] = useAchievements(
     includeWishes ? combinedCountriesData : visitedCountriesData,
   )
 
@@ -48,7 +54,7 @@ export default function Achievements({
         </FormControl>
       </Flex>
       <SimpleGrid minChildWidth="20em" spacing={2}>
-        {formattedAchievements.map(
+        {calculatedAchievements.map(
           ({
             description,
             formattedMaxValue,

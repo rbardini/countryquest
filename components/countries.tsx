@@ -13,8 +13,19 @@ import {
 } from '@chakra-ui/react'
 import { countryCodeEmoji } from 'country-code-emoji'
 import { motion } from 'framer-motion'
+import type { ReactNode } from 'react'
+import type { CountryData } from '../hooks/use-countries-data'
 
 const MotionWrapItem = motion(WrapItem)
+
+type OnCountryChange = (id: string) => void
+type Props = {
+  excludedCountriesData: CountryData[]
+  includedCountriesData: CountryData[]
+  onCountryAdd: OnCountryChange
+  onCountryRemove: OnCountryChange
+  title: ReactNode
+}
 
 export default function Countries({
   excludedCountriesData,
@@ -22,7 +33,7 @@ export default function Countries({
   onCountryAdd,
   onCountryRemove,
   title,
-}) {
+}: Props) {
   const countColor = useColorModeValue('gray.300', 'gray.600')
 
   return (
