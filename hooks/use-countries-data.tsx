@@ -11,6 +11,7 @@ export type CountryData = {
   area: number
   continentId: string
   continentName: string
+  flag: string
 }
 
 interface CountryFeature extends Feature {

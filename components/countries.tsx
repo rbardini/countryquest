@@ -12,7 +12,6 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
-import { countryCodeEmoji } from 'country-code-emoji'
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import type { CountryData } from '../hooks/use-countries-data'
@@ -57,11 +56,11 @@ export default function Countries({
             </Skeleton>
           ))}
         {!isLoading &&
-          includedCountriesData.map(({ id, name }) => (
+          includedCountriesData.map(({ id, flag, name }) => (
             <MotionWrapItem key={id} layout="position">
               <Tag size="lg" borderRadius="full">
                 <TagLabel>
-                  {countryCodeEmoji(id)} {name}
+                  {flag} {name}
                 </TagLabel>
                 <TagCloseButton onClick={() => onCountryRemove(id)} />
               </Tag>

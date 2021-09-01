@@ -2,6 +2,7 @@
 const worldLowGeodata = require('@amcharts/amcharts4-geodata/json/worldLow.json')
 const countries2 = require('@amcharts/amcharts4-geodata/json/data/countries2.json')
 const geojsonArea = require('@mapbox/geojson-area')
+const { countryCodeEmoji } = require('country-code-emoji')
 
 const UM_ID = 'UM'
 
@@ -27,18 +28,21 @@ module.exports = {
   // Omit countries without data and add merged U.S. Minor Outlying Islands
   features: [...rest.filter(({ id }) => countries2[id]), um]
     .map(
-      // Add continent information
+      // Add area, continent and flag information
       feature => {
+        const area = geojsonArea.geometry(feature.geometry)
         const { continent: continentName, continent_code: continentId } =
           countries2[feature.id]
+        const flag = countryCodeEmoji(feature.id)
 
         return {
           ...feature,
           properties: {
             ...feature.properties,
-            area: geojsonArea.geometry(feature.geometry),
+            area,
             continentId,
             continentName,
+            flag,
           },
         }
       },
