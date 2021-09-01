@@ -1,12 +1,4 @@
-import {
-  Box,
-  Center,
-  Divider,
-  Grid,
-  GridItem,
-  Spinner,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, Divider, Grid, GridItem, VStack } from '@chakra-ui/react'
 import { useRef } from 'react'
 import type { ChartRef } from '../hooks/use-chart'
 import useCountriesData from '../hooks/use-countries-data'
@@ -30,17 +22,13 @@ export default function Content() {
     new Set([...visits.countries, ...wishes.countries]),
   )
 
-  const isLoading = visits.loading || wishes.loading
   const toggleMapCountry = (id: string) => worldMapRef.current?.toggle(id)
 
-  return isLoading ? (
-    <Center blockSize="80vh">
-      <Spinner color="gray.300" size="xl" />
-    </Center>
-  ) : (
+  return (
     <Box>
       <WorldMap
         ref={worldMapRef}
+        isLoading={visits.loading}
         onCountryAdd={addVisit}
         onCountryRemove={removeVisit}
         visitedCountriesData={visitedCountriesData}
@@ -50,6 +38,7 @@ export default function Content() {
         <GridItem>
           <VStack align="stretch" spacing={8}>
             <Countries
+              isLoading={visits.loading}
               excludedCountriesData={unvisitedCountriesData}
               includedCountriesData={visitedCountriesData}
               onCountryAdd={toggleMapCountry}
@@ -57,6 +46,7 @@ export default function Content() {
               title="Visited countries"
             />
             <Countries
+              isLoading={wishes.loading}
               excludedCountriesData={unwishedCountriesData}
               includedCountriesData={wishedCountriesData}
               onCountryAdd={addWish}
@@ -67,6 +57,7 @@ export default function Content() {
         </GridItem>
         <GridItem>
           <Achievements
+            isLoading={visits.loading || wishes.loading}
             combinedCountriesData={combinedCountriesData}
             visitedCountriesData={visitedCountriesData}
           />

@@ -1,17 +1,10 @@
-import { MoonIcon, SunIcon } from '@chakra-ui/icons'
-import {
-  Badge,
-  ButtonGroup,
-  Flex,
-  Heading,
-  IconButton,
-  useColorMode,
-  useColorModeValue,
-} from '@chakra-ui/react'
+import { Badge, Flex, Heading, useColorModeValue } from '@chakra-ui/react'
 import Account from '../components/account'
+import useIsClient from '../hooks/use-is-client'
+import ColorModeToggle from './color-mode-toggle'
 
 export default function Header() {
-  const { toggleColorMode } = useColorMode()
+  const isClient = useIsClient()
 
   return (
     <Flex
@@ -37,17 +30,12 @@ export default function Header() {
           beta
         </Badge>
       </Heading>
-      <ButtonGroup>
-        <IconButton
-          aria-label={`Switch to ${useColorModeValue('dark', 'light')} mode`}
-          colorScheme={useColorModeValue('purple', 'yellow')}
-          icon={useColorModeValue(<MoonIcon />, <SunIcon />)}
-          isRound
-          onClick={toggleColorMode}
-          variant="ghost"
-        ></IconButton>
-        <Account />
-      </ButtonGroup>
+      {isClient && (
+        <Flex gridGap={2}>
+          <ColorModeToggle />
+          <Account />
+        </Flex>
+      )}
     </Flex>
   )
 }

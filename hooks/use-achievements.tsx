@@ -3,7 +3,10 @@ import type { Achievement } from '../lib/achievements'
 import achievements from '../lib/achievements'
 import type { CountryData } from './use-countries-data'
 
-type CalculatedAchievement = Omit<Achievement, 'value' | 'formatValue'> & {
+export type CalculatedAchievement = Omit<
+  Achievement,
+  'value' | 'formatValue'
+> & {
   completed: boolean
   formattedMaxValue: ReturnType<Achievement['formatValue']>
   formattedValue: ReturnType<Achievement['formatValue']>

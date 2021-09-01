@@ -1,18 +1,8 @@
-import { Box, Center, Divider, Spinner } from '@chakra-ui/react'
-import dynamic from 'next/dynamic'
+import { Box, Divider } from '@chakra-ui/react'
 import Head from 'next/head'
+import Content from '../components/content'
 import Footer from '../components/footer'
 import Header from '../components/header'
-
-const Content = dynamic(() => import('../components/content'), {
-  ssr: false,
-  // eslint-disable-next-line react/display-name
-  loading: () => (
-    <Center blockSize="80vh">
-      <Spinner color="gray.300" size="xl" />
-    </Center>
-  ),
-})
 
 export default function Home() {
   return (
