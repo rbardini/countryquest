@@ -9,27 +9,20 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
-import { useState } from 'react'
-import useAchievements from '../hooks/use-achievements'
-import type { CountryData } from '../hooks/use-countries-data'
+import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai/utils'
+import achievementsAtom from '../atoms/achievements'
+import visitsAtom from '../atoms/visits'
+import wishesAtom from '../atoms/wishes'
 import Achievement from './achievement'
 
-type Props = {
-  isLoading?: boolean
-  combinedCountriesData: CountryData[]
-  visitedCountriesData: CountryData[]
-}
-
-export default function Achievements({
-  isLoading = false,
-  combinedCountriesData,
-  visitedCountriesData,
-}: Props) {
-  const [includesWishes, setIncludesWishes] = useState(false)
-  const [calculatedAchievements, completedCount] = useAchievements(
-    includesWishes ? combinedCountriesData : visitedCountriesData,
-  )
+export default function Achievements() {
+  const { loading: loadingVisits } = useAtomValue(visitsAtom)
+  const { loading: loadingWishes } = useAtomValue(wishesAtom)
+  const [{ achievements, completedCount, includesWishes }, setIncludesWishes] =
+    useAtom(achievementsAtom)
   const completedCountColor = useColorModeValue('gray.300', 'gray.600')
+  const isLoading = loadingVisits || loadingWishes
 
   return (
     <VStack align="stretch">
@@ -56,7 +49,7 @@ export default function Achievements({
         )}
       </Flex>
       <SimpleGrid minChildWidth="20em" spacing={2}>
-        {calculatedAchievements.map(achievement => (
+        {achievements.map(achievement => (
           <Achievement
             key={achievement.name}
             isLoading={isLoading}

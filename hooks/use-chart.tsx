@@ -1,23 +1,35 @@
-import type { MapChart } from '@amcharts/amcharts4/maps'
+import type { MapChart, MapPolygonSeries } from '@amcharts/amcharts4/maps'
+import { useAtom } from 'jotai'
+import { useAtomCallback } from 'jotai/utils'
 import type { RefObject } from 'react'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import visitsAtom from '../atoms/visits'
 import geodata from '../data/geodata'
+import type { CountryData } from '../lib/countries-atom-creator'
 import useColorModeToken from './use-color-mode-token'
-import type { CountryChangeHandler } from './use-countries'
-import type { CountryData } from './use-countries-data'
 
-export type ChartRef = { chart: MapChart; toggle: (id: string) => void }
-
-const defaultChartReadyHandler = () => {}
+export type ChartRef = {
+  chart: MapChart
+  series: MapPolygonSeries
+}
 
 export default function useChart(
-  isLoading = false,
   containerRef: RefObject<HTMLElement>,
-  countriesData: CountryData[],
-  onCountryAdd: CountryChangeHandler,
-  onCountryRemove: CountryChangeHandler,
-  onChartReady = defaultChartReadyHandler,
+  onChartReady?: (
+    this: unknown,
+    event: { type: 'ready'; target: MapChart },
+  ) => void,
 ) {
+  const [
+    {
+      loading,
+      data: [visitedCountriesData, unvisitedCountriesData],
+    },
+    setVisits,
+  ] = useAtom(visitsAtom)
+  const readVisitedCountriesData = useAtomCallback(
+    useCallback(get => get(visitsAtom).data[0], []),
+  )
   const white = useColorModeToken('colors', 'white', 'gray.800')
   const gray100 = useColorModeToken('colors', 'gray.100', 'gray.700')
   const gray200 = useColorModeToken('colors', 'gray.200', 'gray.600')
@@ -26,7 +38,7 @@ export default function useChart(
   const chartRef = useRef<ChartRef>()
 
   useEffect(() => {
-    if (isLoading) return
+    if (loading) return
 
     let disposed = false
 
@@ -59,11 +71,14 @@ export default function useChart(
       chart.geodata = geodata
       chart.projection = new projections.NaturalEarth1()
       chart.zoomControl = zoomControl
-      chart.events.on('ready', onChartReady)
+      onChartReady && chart.events.on('ready', onChartReady)
 
       const series = chart.series.push(new MapPolygonSeries())
       series.useGeodata = true
-      series.data = countriesData.map(({ id }) => ({ id, value: 1 }))
+      series.data = (await readVisitedCountriesData()).map(({ id }) => ({
+        id,
+        value: 1,
+      }))
       series.heatRules.push({
         property: 'fill',
         target: series.mapPolygons.template,
@@ -79,21 +94,14 @@ export default function useChart(
       template.fill = color(gray100)
       template.stroke = color(gray200)
       template.states.create('hover').properties.opacity = 0.6
-      template.events.on('hit', async ({ target: { dataItem } }) => {
+      template.events.on('hit', ({ target: { dataItem } }) => {
         const { id } = dataItem.dataContext as CountryData
-        const added = (dataItem.value ^= 1)
+        const isAdded = dataItem.value === 1
 
-        const { error } = added
-          ? await onCountryAdd(id)
-          : await onCountryRemove(id)
-
-        if (error) dataItem.value ^= 1
+        setVisits({ action: isAdded ? 'remove' : 'add', id })
       })
 
-      chartRef.current = {
-        chart,
-        toggle: id => series.getPolygonById(id).dispatchImmediately('hit'),
-      }
+      chartRef.current = { chart, series }
     })()
 
     return () => {
@@ -102,21 +110,34 @@ export default function useChart(
       chartRef.current?.chart.dispose()
       chartRef.current = undefined
     }
-
-    // Ignore `countriesData` dependency
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    isLoading,
     containerRef,
-    onCountryAdd,
-    onCountryRemove,
     onChartReady,
+    loading,
+    setVisits,
+    readVisitedCountriesData,
     white,
     gray100,
     gray200,
     gray300,
     blue500,
   ])
+
+  useEffect(() => {
+    const series = chartRef.current?.series
+
+    if (loading || !series) return
+
+    visitedCountriesData.forEach(({ id }) => {
+      const { dataItem } = series.getPolygonById(id)
+      if (!dataItem.value) dataItem.value = 1
+    })
+
+    unvisitedCountriesData.forEach(({ id }) => {
+      const { dataItem } = series.getPolygonById(id)
+      if (dataItem.value) dataItem.value = 0
+    })
+  }, [loading, visitedCountriesData, unvisitedCountriesData])
 
   return chartRef
 }

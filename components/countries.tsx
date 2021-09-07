@@ -14,17 +14,15 @@ import {
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
-import type { CountryData } from '../hooks/use-countries-data'
+import type { CountryData, Updater } from '../lib/countries-atom-creator'
 
 const MotionWrapItem = motion(WrapItem)
 
-type OnCountryChange = (id: string) => void
 type Props = {
   isLoading?: boolean
   excludedCountriesData: CountryData[]
   includedCountriesData: CountryData[]
-  onCountryAdd: OnCountryChange
-  onCountryRemove: OnCountryChange
+  onCountryChange: Updater
   title: ReactNode
 }
 
@@ -32,8 +30,7 @@ export default function Countries({
   isLoading = false,
   excludedCountriesData,
   includedCountriesData,
-  onCountryAdd,
-  onCountryRemove,
+  onCountryChange,
   title,
 }: Props) {
   const countColor = useColorModeValue('gray.300', 'gray.600')
@@ -62,7 +59,9 @@ export default function Countries({
                 <TagLabel>
                   {flag} {name}
                 </TagLabel>
-                <TagCloseButton onClick={() => onCountryRemove(id)} />
+                <TagCloseButton
+                  onClick={() => onCountryChange({ action: 'remove', id })}
+                />
               </Tag>
             </MotionWrapItem>
           ))}
@@ -74,7 +73,9 @@ export default function Countries({
               icon={<SmallAddIcon />}
               iconColor={countColor}
               maxInlineSize="13ch"
-              onChange={({ target }) => onCountryAdd(target.value)}
+              onChange={({ target }) =>
+                onCountryChange({ action: 'add', id: target.value })
+              }
               placeholder="Add country"
               size="sm"
               value=""

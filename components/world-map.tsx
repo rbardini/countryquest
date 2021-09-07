@@ -1,39 +1,21 @@
 import { AspectRatio, Box, Skeleton, useBoolean } from '@chakra-ui/react'
-import { forwardRef, useImperativeHandle, useRef } from 'react'
-import type { ChartRef } from '../hooks/use-chart'
+import { useAtomValue } from 'jotai/utils'
+import { useRef } from 'react'
+import visitsAtom from '../atoms/visits'
 import useChart from '../hooks/use-chart'
-import type { CountryChangeHandler } from '../hooks/use-countries'
-import type { CountryData } from '../hooks/use-countries-data'
 
-type Props = {
-  isLoading?: boolean
-  onCountryAdd: CountryChangeHandler
-  onCountryRemove: CountryChangeHandler
-  visitedCountriesData: CountryData[]
-}
-
-export default forwardRef<ChartRef | undefined, Props>(function WorldMap(
-  { isLoading = false, onCountryAdd, onCountryRemove, visitedCountriesData },
-  ref,
-) {
+export default function WorldMap() {
+  const { loading } = useAtomValue(visitsAtom)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isReady, { on: setIsReadyOn }] = useBoolean()
-  const chartRef = useChart(
-    isLoading,
-    containerRef,
-    visitedCountriesData,
-    onCountryAdd,
-    onCountryRemove,
-    setIsReadyOn,
-  )
-  useImperativeHandle(ref, () => chartRef.current)
+  useChart(containerRef, setIsReadyOn)
 
   return (
     <AspectRatio ratio={21 / 9}>
       <>
-        <Skeleton isLoaded={!isLoading && isReady} />
+        <Skeleton isLoaded={!loading && isReady} />
         <Box ref={containerRef} />
       </>
     </AspectRatio>
   )
-})
+}

@@ -8,7 +8,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import type { CalculatedAchievement } from '../hooks/use-achievements'
+import type { CalculatedAchievement } from '../atoms/achievements'
 
 const MotionHStack = motion(HStack)
 

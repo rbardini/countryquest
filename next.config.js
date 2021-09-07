@@ -1,5 +1,5 @@
 module.exports = {
   eslint: {
-    dirs: ['components', 'data', 'hooks', 'lib', 'pages'],
+    dirs: ['atoms', 'components', 'data', 'hooks', 'lib', 'pages'],
   },
 }
