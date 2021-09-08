@@ -1,32 +1,12 @@
-import type {
-  Feature,
-  FeatureCollection,
-} from '@amcharts/amcharts4-geodata/.internal/Geodata'
 import type { UseToastOptions } from '@chakra-ui/react'
 import { createStandaloneToast } from '@chakra-ui/react'
 import type { PostgrestError } from '@supabase/supabase-js'
 import { atom } from 'jotai'
 import userAtom from '../atoms/user'
+import type { CountryData } from '../data/geodata'
 import geodata from '../data/geodata'
 import supabase from '../lib/supabase'
 import theme from '../theme'
-
-export type CountryData = {
-  name: string
-  id: string
-  area: number
-  continentId: string
-  continentName: string
-  flag: string
-}
-
-interface CountryFeature extends Feature {
-  properties: CountryData
-}
-
-interface Geodata extends FeatureCollection {
-  features: CountryFeature[]
-}
 
 type Table = 'visits' | 'wishes'
 type Row = { user_id: string; country_id: string }
@@ -92,9 +72,7 @@ export default function countriesAtomCreator(table: Table) {
   const countriesDataAtom = atom(get => {
     const countries = get(fetchCountriesAtom)
 
-    const data = (geodata as Geodata).features.reduce<
-      [CountryData[], CountryData[]]
-    >(
+    const data = geodata.features.reduce<[CountryData[], CountryData[]]>(
       (acc, { id, properties }) => {
         acc[+!countries.countries.has(id)].push(properties)
         return acc
@@ -136,7 +114,7 @@ export default function countriesAtomCreator(table: Table) {
             if (error) {
               console.error(error.message)
 
-              const countryName = (geodata as Geodata).features.find(
+              const countryName = geodata.features.find(
                 ({ id: featureId }) => featureId === id,
               )?.properties.name
 
@@ -165,7 +143,7 @@ export default function countriesAtomCreator(table: Table) {
             if (error) {
               console.error(error.message)
 
-              const countryName = (geodata as Geodata).features.find(
+              const countryName = geodata.features.find(
                 ({ id: featureId }) => featureId === id,
               )?.properties.name
 

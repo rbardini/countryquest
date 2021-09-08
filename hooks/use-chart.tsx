@@ -4,8 +4,8 @@ import { useAtomCallback } from 'jotai/utils'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
 import visitsAtom from '../atoms/visits'
+import type { CountryData } from '../data/geodata'
 import geodata from '../data/geodata'
-import type { CountryData } from '../lib/countries-atom-creator'
 import useColorModeToken from './use-color-mode-token'
 
 export type ChartRef = {

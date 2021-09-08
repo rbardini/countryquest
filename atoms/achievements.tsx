@@ -15,7 +15,7 @@ export type CalculatedAchievement = Omit<
   value: ReturnType<Achievement['value']>
 }
 
-type Value = {
+export type Value = {
   achievements: CalculatedAchievement[]
   completedCount: number
   includesWishes: boolean

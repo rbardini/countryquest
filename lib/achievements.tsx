@@ -1,7 +1,7 @@
 import area from '../data/area'
 import continents from '../data/continents'
+import type { CountryData } from '../data/geodata'
 import geodata from '../data/geodata'
-import type { CountryData } from './countries-atom-creator'
 
 const countryCount = geodata.features.length
 const continentCount = Object.keys(continents).length
