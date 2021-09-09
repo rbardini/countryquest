@@ -14,8 +14,8 @@ import {
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
+import type { Updater } from '../atoms/countries'
 import type { CountryData } from '../data/geodata'
-import type { Updater } from '../lib/countries-atom-creator'
 
 const MotionWrapItem = motion(WrapItem)
 

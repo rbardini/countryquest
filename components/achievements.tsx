@@ -12,8 +12,7 @@ import {
 import { useAtom } from 'jotai'
 import { useAtomValue } from 'jotai/utils'
 import achievementsAtom from '../atoms/achievements'
-import visitsAtom from '../atoms/visits'
-import wishesAtom from '../atoms/wishes'
+import { visitsAtom, wishesAtom } from '../atoms/countries'
 import Achievement from './achievement'
 
 export default function Achievements() {

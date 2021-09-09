@@ -37,7 +37,10 @@ const showError = (props: UseToastOptions) =>
     ...props,
   })
 
-export default function countriesAtomCreator(table: Table) {
+const getCountryName = (countryId: string) =>
+  geodata.features.find(({ id }) => id === countryId)?.properties.name
+
+const countriesAtomCreator = (table: Table) => {
   const countriesAtom = atom(initialState)
 
   const fetchCountriesAtom = atom<Value, Table>(
@@ -114,13 +117,9 @@ export default function countriesAtomCreator(table: Table) {
             if (error) {
               console.error(error.message)
 
-              const countryName = geodata.features.find(
-                ({ id: featureId }) => featureId === id,
-              )?.properties.name
-
               showError({
                 title: `Oops, we couldn't add ${
-                  countryName ?? 'this country'
+                  getCountryName(id) ?? 'this country'
                 } to your ${table} 😕`,
                 description: 'Sorry about that, you can try again later.',
               })
@@ -143,13 +142,9 @@ export default function countriesAtomCreator(table: Table) {
             if (error) {
               console.error(error.message)
 
-              const countryName = geodata.features.find(
-                ({ id: featureId }) => featureId === id,
-              )?.properties.name
-
               showError({
                 title: `Oops, we couldn't remove ${
-                  countryName ?? 'this country'
+                  getCountryName(id) ?? 'this country'
                 } from your ${table} 😕`,
                 description: 'Sorry about that, you can try again later.',
               })
@@ -162,3 +157,6 @@ export default function countriesAtomCreator(table: Table) {
 
   return countriesUpdaterAtom
 }
+
+export const visitsAtom = countriesAtomCreator('visits')
+export const wishesAtom = countriesAtomCreator('wishes')

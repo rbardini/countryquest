@@ -1,8 +1,7 @@
 import { atom } from 'jotai'
 import type { Achievement } from '../lib/achievements'
 import achievements from '../lib/achievements'
-import visitsAtom from './visits'
-import wishesAtom from './wishes'
+import { visitsAtom, wishesAtom } from './countries'
 
 export type CalculatedAchievement = Omit<
   Achievement,

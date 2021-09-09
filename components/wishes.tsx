@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import wishesAtom from '../atoms/wishes'
+import { wishesAtom } from '../atoms/countries'
 import Countries from './countries'
 
 export default function Wishes() {
