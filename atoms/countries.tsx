@@ -18,7 +18,7 @@ type Value = {
 type ValueWithData = Value & {
   data: [included: CountryData[], excluded: CountryData[]]
 }
-type Update = { action: 'add' | 'remove'; id: string }
+type Update = { action: 'add' | 'remove'; id: string } | { action: 'fetch' }
 export type Updater = (update: Update) => void
 
 const initialState: Value = {
@@ -45,7 +45,18 @@ const countriesAtomCreator = (table: Table) => {
 
   const fetchCountriesAtom = atom<Value, Table>(
     get => get(countriesAtom),
-    (_get, set, table) => {
+    (get, set, table) => {
+      const user = get(userAtom)
+
+      if (!user) {
+        set(countriesAtom, prevState => ({
+          ...prevState,
+          loading: false,
+        }))
+
+        return
+      }
+
       ;(async () => {
         const response = await supabase.from<Row>(table).select('country_id')
 
@@ -70,7 +81,6 @@ const countriesAtomCreator = (table: Table) => {
       })()
     },
   )
-  fetchCountriesAtom.onMount = fetchCountries => fetchCountries(table)
 
   const countriesDataAtom = atom(get => {
     const countries = get(fetchCountriesAtom)
@@ -88,7 +98,7 @@ const countriesAtomCreator = (table: Table) => {
 
   const countriesUpdaterAtom = atom<ValueWithData, Update>(
     get => get(countriesDataAtom),
-    (get, set, { action, id }) => {
+    (get, set, update) => {
       const user = get(userAtom)
 
       const toggleCountry = (id: string, toggle: boolean) =>
@@ -99,8 +109,15 @@ const countriesAtomCreator = (table: Table) => {
           return { ...prevState, countries: new Set(prevState.countries) }
         })
 
-      switch (action) {
-        case 'add':
+      switch (update.action) {
+        case 'fetch': {
+          set(fetchCountriesAtom, table)
+          break
+        }
+
+        case 'add': {
+          const { id } = update
+
           if (!user) {
             toggleCountry(id, true)
             return
@@ -125,9 +142,13 @@ const countriesAtomCreator = (table: Table) => {
               })
             } else toggleCountry(id, true)
           })()
-          break
 
-        case 'remove':
+          break
+        }
+
+        case 'remove': {
+          const { id } = update
+
           if (!user) {
             toggleCountry(id, false)
             return
@@ -150,7 +171,9 @@ const countriesAtomCreator = (table: Table) => {
               })
             } else toggleCountry(id, false)
           })()
+
           break
+        }
       }
     },
   )
@@ -160,3 +183,16 @@ const countriesAtomCreator = (table: Table) => {
 
 export const visitsAtom = countriesAtomCreator('visits')
 export const wishesAtom = countriesAtomCreator('wishes')
+
+const countriesAtom = atom<Record<Table, ValueWithData>, undefined>(
+  get => ({
+    visits: get(visitsAtom),
+    wishes: get(wishesAtom),
+  }),
+  (_get, set) => {
+    set(visitsAtom, { action: 'fetch' })
+    set(wishesAtom, { action: 'fetch' })
+  },
+)
+
+export default countriesAtom
