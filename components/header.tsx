@@ -1,7 +1,6 @@
 import { Badge, Flex, Heading, useColorModeValue } from '@chakra-ui/react'
 import Account from '../components/account'
 import useIsClient from '../hooks/use-is-client'
-import ColorModeToggle from './color-mode-toggle'
 
 export default function Header() {
   const isClient = useIsClient()
@@ -30,12 +29,7 @@ export default function Header() {
           beta
         </Badge>
       </Heading>
-      {isClient && (
-        <Flex gridGap={2}>
-          <ColorModeToggle />
-          <Account />
-        </Flex>
-      )}
+      {isClient && <Account />}
     </Flex>
   )
 }

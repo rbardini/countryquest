@@ -5,6 +5,8 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
+  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import type { User } from '@supabase/supabase-js'
 import supabase from '../lib/supabase'
@@ -15,6 +17,8 @@ type Props = {
 }
 
 export default function Profile({ user }: Props) {
+  const { toggleColorMode } = useColorMode()
+
   return (
     <Menu>
       <MenuButton as={IconButton} isRound>
@@ -22,6 +26,9 @@ export default function Profile({ user }: Props) {
       </MenuButton>
       <MenuList>
         <MenuGroup title={user.email}>
+          <MenuItem onClick={toggleColorMode}>
+            Turn {useColorModeValue('on', 'off')} dark mode
+          </MenuItem>
           <MenuItem onClick={() => supabase.auth.signOut()}>Sign out</MenuItem>
         </MenuGroup>
       </MenuList>
