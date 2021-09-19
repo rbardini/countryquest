@@ -2,6 +2,17 @@
   "name": "countryquest",
   "version": "0.1.0",
   "private": true,
+  "description": "An interactive scratch off map. Keep track of which places you have been, how much of the world you have conquered, and where to go next.",
+  "keywords": [
+    "scratch",
+    "map",
+    "world",
+    "countries",
+    "travel",
+    "tourism",
+    "visits",
+    "achievements"
+  ],
   "scripts": {
     "supabase:init": "supabase init",
     "supabase:start": "supabase start",
