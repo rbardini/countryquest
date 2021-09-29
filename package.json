@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build": "next build",
+    "build:analyze": "ANALYZE=true npm run build",
     "dev": "next dev",
     "format": "prettier --ignore-path .gitignore --write .",
     "format:check": "prettier --ignore-path .gitignore --check .",
@@ -35,6 +36,7 @@
     "@emotion/styled": "11.3.0",
     "@fontsource/dosis": "4.5.0",
     "@mapbox/geojson-area": "0.2.2",
+    "@next/bundle-analyzer": "11.1.2",
     "@supabase/supabase-js": "1.23.0",
     "boring-avatars": "1.5.8",
     "country-code-emoji": "2.3.0",
