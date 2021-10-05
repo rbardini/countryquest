@@ -21,12 +21,6 @@ type ValueWithData = Value & {
 type Update = { action: 'add' | 'remove'; id: string } | { action: 'fetch' }
 export type Updater = (update: Update) => void
 
-const initialState: Value = {
-  loading: true,
-  error: null,
-  countries: new Set(),
-}
-
 const toast = createStandaloneToast({ theme })
 const showError = (props: UseToastOptions) =>
   toast({
@@ -41,6 +35,12 @@ const getCountryName = (countryId: string) =>
   geodata.features.find(({ id }) => id === countryId)?.properties.name
 
 const countriesAtomCreator = (table: Table) => {
+  const initialState: Value = {
+    loading: true,
+    error: null,
+    countries: new Set(),
+  }
+
   const countriesAtom = atom(initialState)
 
   const fetchCountriesAtom = atom<Value, Table>(
@@ -103,10 +103,12 @@ const countriesAtomCreator = (table: Table) => {
 
       const toggleCountry = (id: string, toggle: boolean) =>
         set(countriesAtom, prevState => {
-          if (toggle) prevState.countries.add(id)
-          else prevState.countries.delete(id)
+          const countries = new Set(prevState.countries)
 
-          return { ...prevState, countries: new Set(prevState.countries) }
+          if (toggle) countries.add(id)
+          else countries.delete(id)
+
+          return { ...prevState, countries }
         })
 
       switch (update.action) {
