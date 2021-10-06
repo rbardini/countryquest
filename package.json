@@ -13,6 +13,7 @@
     "visits",
     "achievements"
   ],
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "build": "next build",
     "build:analyze": "ANALYZE=true npm run build",
