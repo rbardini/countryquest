@@ -13,7 +13,20 @@
     "visits",
     "achievements"
   ],
+  "homepage": "https://country.quest/",
+  "bugs": {
+    "url": "https://github.com/rbardini/countryquest/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rbardini/countryquest.git"
+  },
   "license": "AGPL-3.0-or-later",
+  "author": {
+    "name": "Rafael Bardini",
+    "email": "rafael@rbardini.com",
+    "url": "https://rbardini.com/"
+  },
   "scripts": {
     "build": "next build",
     "build:analyze": "ANALYZE=true npm run build",
