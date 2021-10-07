@@ -1,5 +1,8 @@
 # [Countryquest](https://country.quest/)
 
+[![Build status](https://img.shields.io/github/workflow/status/rbardini/countryquest/Main)](https://github.com/rbardini/countryquest/actions)
+[![Deploy status](https://img.shields.io/netlify/12195d0a-3b08-456a-b49d-ed2f2465018d?label=deploy)](https://app.netlify.com/sites/countryquest/deploys)
+
 🗺️ An interactive scratch off map. Keep track of which places you have been, how much of the world you have conquered, and where to go next.
 
 Powered by [Next.js](https://nextjs.org/) and [Supabase](https://supabase.io/).
