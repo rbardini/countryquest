@@ -24,8 +24,6 @@ Powered by [Next.js](https://nextjs.org/) and [Supabase](https://supabase.io/).
 ## Quick Start
 
 ```console
-git clone git@github.com:rbardini/countryquest.git
-cd countryquest
 npm install
 npm run dev
 ```
