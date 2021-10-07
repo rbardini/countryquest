@@ -1,17 +1,22 @@
-import { Box, Link, Text, useColorModeValue } from '@chakra-ui/react'
+import { Flex, Link, Text, useColorModeValue } from '@chakra-ui/react'
+import pkg from '../package.json'
 
 export default function Footer() {
+  const linkColor = useColorModeValue('blue.500', 'blue.200')
+
   return (
-    <Box padding={8}>
-      <Text align="center">
+    <Flex gridGap={4} justifyContent="center" padding={8}>
+      <Text as="span">
         Made with ❤️ by{' '}
-        <Link
-          color={useColorModeValue('blue.500', 'blue.200')}
-          href="https://rbardini.com/"
-        >
+        <Link color={linkColor} href="https://rbardini.com/">
           Rafael Bardini
         </Link>
       </Text>
-    </Box>
+      <Text as="span">
+        <Link color={linkColor} href={pkg.repository.url.replace(/\.git$/, '')}>
+          GitHub
+        </Link>
+      </Text>
+    </Flex>
   )
 }
