@@ -32,7 +32,7 @@ export default function Achievement({
 }: Props) {
   return (
     <MotionHStack
-      key={name}
+      layoutId={name}
       alignItems="center"
       borderRadius="lg"
       borderWidth="1px"
