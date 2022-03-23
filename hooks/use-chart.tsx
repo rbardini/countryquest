@@ -1,9 +1,9 @@
 import type { MapChart, MapPolygonSeries } from '@amcharts/amcharts4/maps'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useAtomCallback } from 'jotai/utils'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
-import { visitsAtom } from '../atoms/countries'
+import { visitsAtom, wishesAtom } from '../atoms/countries'
 import type { CountryData } from '../data/geodata'
 import geodata from '../data/geodata'
 import useColorModeToken from './use-color-mode-token'
@@ -22,13 +22,20 @@ export default function useChart(
 ) {
   const [
     {
-      loading,
+      loading: loadingVisits,
       data: [visitedCountriesData, unvisitedCountriesData],
     },
     setVisits,
   ] = useAtom(visitsAtom)
+  const {
+    loading: loadingWishes,
+    data: [wishedCountriesData, unwishedCountriesData],
+  } = useAtomValue(wishesAtom)
   const readVisitedCountriesData = useAtomCallback(
     useCallback(get => get(visitsAtom).data[0], []),
+  )
+  const readWishedCountriesData = useAtomCallback(
+    useCallback(get => get(wishesAtom).data[0], []),
   )
   const white = useColorModeToken('colors', 'white', 'gray.800')
   const gray100 = useColorModeToken('colors', 'gray.100', 'gray.700')
@@ -38,7 +45,7 @@ export default function useChart(
   const chartRef = useRef<ChartRef>()
 
   useEffect(() => {
-    if (loading) return
+    if (loadingVisits || loadingWishes) return
 
     let disposed = false
 
@@ -73,12 +80,13 @@ export default function useChart(
       chart.zoomControl = zoomControl
       onChartReady && chart.events.on('ready', onChartReady)
 
+      const data: Record<string, number> = {}
+      ;(await readWishedCountriesData()).forEach(({ id }) => (data[id] = 0.2))
+      ;(await readVisitedCountriesData()).forEach(({ id }) => (data[id] = 1))
+
       const series = chart.series.push(new MapPolygonSeries())
       series.useGeodata = true
-      series.data = (await readVisitedCountriesData()).map(({ id }) => ({
-        id,
-        value: 1,
-      }))
+      series.data = Object.entries(data).map(([id, value]) => ({ id, value }))
       series.heatRules.push({
         property: 'fill',
         target: series.mapPolygons.template,
@@ -113,9 +121,11 @@ export default function useChart(
   }, [
     containerRef,
     onChartReady,
-    loading,
+    loadingVisits,
+    loadingWishes,
     setVisits,
     readVisitedCountriesData,
+    readWishedCountriesData,
     white,
     gray100,
     gray200,
@@ -126,18 +136,29 @@ export default function useChart(
   useEffect(() => {
     const series = chartRef.current?.series
 
-    if (loading || !series) return
-
-    visitedCountriesData.forEach(({ id }) => {
-      const { dataItem } = series.getPolygonById(id)
-      if (!dataItem.value) dataItem.value = 1
-    })
-
-    unvisitedCountriesData.forEach(({ id }) => {
+    if (loadingVisits || loadingWishes || !series) return
+    ;[...unvisitedCountriesData, ...unwishedCountriesData].forEach(({ id }) => {
       const { dataItem } = series.getPolygonById(id)
       if (dataItem.value) dataItem.value = 0
     })
-  }, [loading, visitedCountriesData, unvisitedCountriesData])
+
+    wishedCountriesData.forEach(({ id }) => {
+      const { dataItem } = series.getPolygonById(id)
+      if (!dataItem.value) dataItem.value = 0.2
+    })
+
+    visitedCountriesData.forEach(({ id }) => {
+      const { dataItem } = series.getPolygonById(id)
+      if (!dataItem.value || dataItem.value < 1) dataItem.value = 1
+    })
+  }, [
+    loadingVisits,
+    loadingWishes,
+    visitedCountriesData,
+    unvisitedCountriesData,
+    wishedCountriesData,
+    unwishedCountriesData,
+  ])
 
   return chartRef
 }
