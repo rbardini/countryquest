@@ -6,6 +6,7 @@ module.exports = withBundleAnalyzer({
   eslint: {
     dirs: ['atoms', 'components', 'data', 'hooks', 'lib', 'pages'],
   },
+  generateBuildId: () => 'build',
   webpack: (config, options) => ({
     ...config,
     externals: [
