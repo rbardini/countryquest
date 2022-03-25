@@ -5,7 +5,7 @@ export default extendTheme({
     initialColorMode: 'system',
   },
   fonts: {
-    heading: 'DosisVariable, sans-serif',
-    body: 'DosisVariable, sans-serif',
+    heading: 'DosisVariable,sans-serif',
+    body: 'DosisVariable,sans-serif',
   },
 })

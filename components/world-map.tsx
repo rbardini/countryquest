@@ -7,14 +7,14 @@ import useChart from '../hooks/use-chart'
 export default function WorldMap() {
   const { loading } = useAtomValue(visitsAtom)
   const containerRef = useRef<HTMLDivElement>(null)
-  const [isReady, { on: setIsReadyOn }] = useBoolean()
-  useChart(containerRef, setIsReadyOn)
+  const [isChartReady, { on: setIsChartReady }] = useBoolean()
+  useChart(containerRef, setIsChartReady)
 
   return (
     <AspectRatio ratio={21 / 9}>
       <>
-        <Skeleton isLoaded={!loading && isReady} />
-        <Box ref={containerRef} />
+        <Skeleton isLoaded={!loading && isChartReady} />
+        <Box ref={containerRef} display="block !important" />
       </>
     </AspectRatio>
   )

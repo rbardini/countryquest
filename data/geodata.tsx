@@ -1,7 +1,4 @@
-import type {
-  Feature,
-  FeatureCollection,
-} from '@amcharts/amcharts4-geodata/.internal/Geodata'
+import type { Geometry } from 'geojson'
 import geodata from './preval/geodata'
 
 export type CountryData = {
@@ -13,12 +10,6 @@ export type CountryData = {
   flag: string
 }
 
-export interface CountryFeature extends Feature {
-  properties: CountryData
-}
-
-export interface Geodata extends FeatureCollection {
-  features: CountryFeature[]
-}
+export type Geodata = GeoJSON.FeatureCollection<Geometry, CountryData>
 
 export default geodata as Geodata

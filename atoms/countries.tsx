@@ -87,7 +87,7 @@ const countriesAtomCreator = (table: Table) => {
 
     const data = geodata.features.reduce<[CountryData[], CountryData[]]>(
       (acc, { id, properties }) => {
-        acc[+!countries.countries.has(id)].push(properties)
+        acc[+!countries.countries.has(id as string)].push(properties)
         return acc
       },
       [[], []],

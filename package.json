@@ -42,8 +42,8 @@
     "type:check": "tsc"
   },
   "dependencies": {
-    "@amcharts/amcharts4": "4.10.24",
-    "@amcharts/amcharts4-geodata": "4.1.22",
+    "@amcharts/amcharts5": "5.1.9",
+    "@amcharts/amcharts5-geodata": "5.0.2",
     "@chakra-ui/icons": "1.1.7",
     "@chakra-ui/react": "1.8.6",
     "@emotion/react": "11.8.2",

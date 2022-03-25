@@ -1,6 +1,6 @@
 // @preval
-const worldLowGeodata = require('@amcharts/amcharts4-geodata/json/worldLow.json')
-const countries2 = require('@amcharts/amcharts4-geodata/json/data/countries2.json')
+const worldLowGeodata = require('@amcharts/amcharts5-geodata/json/worldLow.json')
+const countries2 = require('@amcharts/amcharts5-geodata/json/data/countries2.json')
 const geojsonArea = require('@mapbox/geojson-area')
 const { countryCodeEmoji } = require('country-code-emoji')
 
