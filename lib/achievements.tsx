@@ -1,4 +1,5 @@
 import area from '../data/area'
+import blocks from '../data/blocks'
 import continents from '../data/continents'
 import type { CountryData } from '../data/geodata'
 import geodata from '../data/geodata'
@@ -56,6 +57,15 @@ const achievements: Achievement[] = [
           continents.NA.countries.includes(id) ||
           continents.SA.countries.includes(id),
       ).length,
+    formatValue: value => value,
+  },
+  {
+    name: 'Maastricht Treaty',
+    description: 'Visit all member states of the European Union',
+    min: 0,
+    max: blocks.EU.countries.length,
+    value: data =>
+      data.filter(({ id }) => blocks.EU.countries.includes(id)).length,
     formatValue: value => value,
   },
   {
