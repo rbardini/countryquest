@@ -3,6 +3,7 @@ import blocks from '../data/blocks'
 import continents from '../data/continents'
 import type { CountryData } from '../data/geodata'
 import geodata from '../data/geodata'
+import lines from '../data/lines'
 
 const countryCount = geodata.features.length
 const continentCount = Object.keys(continents).length
@@ -66,6 +67,15 @@ const achievements: Achievement[] = [
     max: blocks.EU.countries.length,
     value: data =>
       data.filter(({ id }) => blocks.EU.countries.includes(id)).length,
+    formatValue: value => value,
+  },
+  {
+    name: 'The Belt',
+    description: 'Visit all countries crossed by the equatorial line',
+    min: 0,
+    max: lines.EQ.countries.length,
+    value: data =>
+      data.filter(({ id }) => lines.EQ.countries.includes(id)).length,
     formatValue: value => value,
   },
   {
