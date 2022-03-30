@@ -51,7 +51,7 @@ export default function Achievement({
           <Heading as="h3" fontSize="1xl">
             {name}
           </Heading>
-          <Text>{description}</Text>
+          <Text fontSize="sm">{description}</Text>
           <HStack>
             <Progress
               borderRadius="full"
