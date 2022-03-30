@@ -48,6 +48,23 @@ const achievements: Achievement[] = [
     unit: 'km²',
   },
   {
+    name: 'Old World',
+    description: 'Visit all countries in Africa, Europe and Asia',
+    min: 0,
+    max:
+      continents.AF.countries.length +
+      continents.EU.countries.length +
+      continents.AS.countries.length,
+    value: data =>
+      data.filter(
+        ({ id }) =>
+          continents.AF.countries.includes(id) ||
+          continents.EU.countries.includes(id) ||
+          continents.AS.countries.includes(id),
+      ).length,
+    formatValue: value => value,
+  },
+  {
     name: 'New World',
     description: 'Visit all countries in the Americas',
     min: 0,
