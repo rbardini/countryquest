@@ -3,6 +3,7 @@ import blocks from '../data/blocks'
 import continents from '../data/continents'
 import type { CountryData } from '../data/geodata'
 import geodata from '../data/geodata'
+import landlocked from '../data/landlocked'
 import lines from '../data/lines'
 import population from '../data/population'
 
@@ -102,6 +103,14 @@ const achievements: Achievement[] = [
     max: lines.EQ.countries.length,
     value: data =>
       data.filter(({ id }) => lines.EQ.countries.includes(id)).length,
+    formatValue: value => value,
+  },
+  {
+    name: 'Landlocked',
+    description: 'Visit all countries with no direct access to the sea',
+    min: 0,
+    max: landlocked,
+    value: data => data.reduce((acc, { landlocked }) => acc + +landlocked, 0),
     formatValue: value => value,
   },
   {

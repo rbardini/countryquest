@@ -29,13 +29,13 @@ module.exports = {
   // Omit countries without data and add merged U.S. Minor Outlying Islands
   features: [...rest.filter(({ id }) => countries2[id]), um]
     .map(
-      // Add area, continent, flag and population information
+      // Add extra information
       feature => {
         const area = geojsonArea.geometry(feature.geometry)
         const { continent: continentName, continent_code: continentId } =
           countries2[feature.id]
         const flag = countryCodeEmoji(feature.id)
-        const { population } = restcountries[feature.id]
+        const { landlocked, population } = restcountries[feature.id]
 
         return {
           ...feature,
@@ -45,6 +45,7 @@ module.exports = {
             continentId,
             continentName,
             flag,
+            landlocked,
             population,
           },
         }

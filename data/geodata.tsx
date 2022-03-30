@@ -8,6 +8,7 @@ export type CountryData = {
   continentId: string
   continentName: string
   flag: string
+  landlocked: boolean
   population: number
 }
 
