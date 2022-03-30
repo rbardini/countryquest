@@ -4,6 +4,7 @@ import continents from '../data/continents'
 import type { CountryData } from '../data/geodata'
 import geodata from '../data/geodata'
 import lines from '../data/lines'
+import population from '../data/population'
 
 const countryCount = geodata.features.length
 const continentCount = Object.keys(continents).length
@@ -46,6 +47,14 @@ const achievements: Achievement[] = [
         notation: 'compact',
       }),
     unit: 'km²',
+  },
+  {
+    name: 'Popular Demand',
+    description: "Visit everyone's home country",
+    min: 0,
+    max: population,
+    value: data => data.reduce((acc, { population }) => acc + population, 0),
+    formatValue: value => value.toLocaleString('en', { notation: 'compact' }),
   },
   {
     name: 'Old World',

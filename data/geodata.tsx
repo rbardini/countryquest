@@ -8,6 +8,7 @@ export type CountryData = {
   continentId: string
   continentName: string
   flag: string
+  population: number
 }
 
 export type Geodata = GeoJSON.FeatureCollection<Geometry, CountryData>

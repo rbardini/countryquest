@@ -35,6 +35,7 @@
     "format:check": "prettier --ignore-path .gitignore --check .",
     "lint": "next lint",
     "prepare": "husky install",
+    "restcountries:fetch": "curl https://restcountries.com/v3.1/all | jq 'INDEX(.cca2)' > data/preval/json/restcountries.json",
     "start": "next start",
     "supabase:init": "supabase init",
     "supabase:start": "supabase start",
