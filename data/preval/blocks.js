@@ -1,9 +1,13 @@
 // @preval
-const { getEuMembers } = require('is-eu-member')
+const geodata = require('./geodata')
 
-module.exports = {
-  EU: {
-    name: 'European Union',
-    countries: getEuMembers(),
+module.exports = geodata.features.reduce(
+  (acc, { properties: { blocks, id } }) => {
+    blocks.forEach(({ id: blockId, name }) => {
+      acc[blockId] ??= { name, countries: [] }
+      acc[blockId].countries.push(id)
+    })
+    return acc
   },
-}
+  {},
+)
