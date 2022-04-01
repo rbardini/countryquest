@@ -34,6 +34,7 @@ module.exports = {
         const area = geojsonArea.geometry(feature.geometry)
         const { continent: continentName, continent_code: continentId } =
           countries2[feature.id]
+        const continent = { id: continentId, name: continentName }
         const flag = countryCodeEmoji(feature.id)
         const { landlocked, population } = restcountries[feature.id]
 
@@ -42,8 +43,7 @@ module.exports = {
           properties: {
             ...feature.properties,
             area,
-            continentId,
-            continentName,
+            continent,
             flag,
             landlocked,
             population,

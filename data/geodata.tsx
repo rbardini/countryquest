@@ -5,8 +5,10 @@ export type CountryData = {
   name: string
   id: string
   area: number
-  continentId: string
-  continentName: string
+  continent: {
+    id: string
+    name: string
+  }
   flag: string
   landlocked: boolean
   population: number

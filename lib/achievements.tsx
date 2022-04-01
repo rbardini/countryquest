@@ -7,9 +7,6 @@ import landlocked from '../data/landlocked'
 import lines from '../data/lines'
 import population from '../data/population'
 
-const countryCount = geodata.features.length
-const continentCount = Object.keys(continents).length
-
 export type Achievement = {
   name: string
   description: string
@@ -25,7 +22,7 @@ const achievements: Achievement[] = [
     name: 'Travelling Salesman',
     description: `Visit all countries`,
     min: 0,
-    max: countryCount,
+    max: geodata.features.length,
     value: data => data.length,
     formatValue: value => value,
   },
@@ -33,8 +30,8 @@ const achievements: Achievement[] = [
     name: 'Seven Corners',
     description: `Visit all continents`,
     min: 0,
-    max: continentCount,
-    value: data => new Set(data.map(({ continentId }) => continentId)).size,
+    max: Object.keys(continents).length,
+    value: data => new Set(data.map(({ continent: { id } }) => id)).size,
     formatValue: value => value,
   },
   {
@@ -118,7 +115,7 @@ const achievements: Achievement[] = [
     description: `Visit Antarctica`,
     min: 0,
     max: 1,
-    value: data => +data.some(({ continentId }) => continentId === 'AN'),
+    value: data => +data.some(({ continent: { id } }) => id === 'AN'),
     formatValue: value => value,
   },
 ]
