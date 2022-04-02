@@ -1,7 +1,6 @@
 // @preval
 const worldLowGeodata = require('@amcharts/amcharts5-geodata/json/worldLow.json')
 const countries2 = require('@amcharts/amcharts5-geodata/json/data/countries2.json')
-const geojsonArea = require('@mapbox/geojson-area')
 const { countryCodeEmoji } = require('country-code-emoji')
 const { isEuMember } = require('is-eu-member')
 const restcountries = require('./json/restcountries.json')
@@ -32,7 +31,6 @@ module.exports = {
     .map(
       // Add extra information
       feature => {
-        const area = geojsonArea.geometry(feature.geometry)
         const blocks = [
           isEuMember(feature.id) && { id: 'EU', name: 'European Union' },
         ].filter(Boolean)
@@ -40,7 +38,7 @@ module.exports = {
           countries2[feature.id]
         const continent = { id: continentId, name: continentName }
         const flag = countryCodeEmoji(feature.id)
-        const { landlocked, population } = restcountries[feature.id]
+        const { area, landlocked, population } = restcountries[feature.id]
 
         return {
           ...feature,

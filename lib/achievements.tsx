@@ -40,10 +40,7 @@ const achievements: Achievement[] = [
     min: 0,
     max: area,
     value: data => data.reduce((acc, { area }) => acc + area, 0),
-    formatValue: value =>
-      (value / 1000 ** 2).toLocaleString('en', {
-        notation: 'compact',
-      }),
+    formatValue: value => value.toLocaleString('en', { notation: 'compact' }),
     unit: 'km²',
   },
   {

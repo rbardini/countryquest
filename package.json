@@ -50,7 +50,6 @@
     "@emotion/react": "11.8.2",
     "@emotion/styled": "11.8.1",
     "@fontsource/dosis": "4.5.7",
-    "@mapbox/geojson-area": "0.2.2",
     "@next/bundle-analyzer": "12.1.4",
     "@supabase/supabase-js": "1.33.2",
     "boring-avatars": "1.6.3",
