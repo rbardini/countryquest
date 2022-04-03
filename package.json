@@ -53,7 +53,6 @@
     "@next/bundle-analyzer": "12.1.4",
     "@supabase/supabase-js": "1.33.2",
     "boring-avatars": "1.6.3",
-    "country-code-emoji": "2.3.0",
     "framer-motion": "6.2.8",
     "is-eu-member": "1.0.6",
     "jotai": "1.6.1",

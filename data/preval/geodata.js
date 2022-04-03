@@ -1,7 +1,6 @@
 // @preval
 const worldLowGeodata = require('@amcharts/amcharts5-geodata/json/worldLow.json')
 const countries2 = require('@amcharts/amcharts5-geodata/json/data/countries2.json')
-const { countryCodeEmoji } = require('country-code-emoji')
 const { isEuMember } = require('is-eu-member')
 const restcountries = require('./json/restcountries.json')
 
@@ -37,8 +36,7 @@ module.exports = {
         const { continent: continentName, continent_code: continentId } =
           countries2[feature.id]
         const continent = { id: continentId, name: continentName }
-        const flag = countryCodeEmoji(feature.id)
-        const { area, landlocked, population } = restcountries[feature.id]
+        const { area, flag, landlocked, population } = restcountries[feature.id]
 
         return {
           ...feature,
