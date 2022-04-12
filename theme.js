@@ -8,4 +8,11 @@ export default extendTheme({
     heading: 'DosisVariable,sans-serif',
     body: 'DosisVariable,sans-serif',
   },
+  styles: {
+    global: {
+      'div[role=progressbar]': {
+        transitionProperty: 'var(--chakra-transition-property-common), width',
+      },
+    },
+  },
 })
