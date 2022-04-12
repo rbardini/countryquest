@@ -35,4 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 
 # supabase
-.supabase
+/supabase/.branches
+/supabase/.temp
