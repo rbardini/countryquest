@@ -10,4 +10,5 @@ module.exports = withBundleAnalyzer({
     dirs: ['atoms', 'components', 'data', 'hooks', 'lib', 'pages'],
   },
   generateBuildId: () => 'build',
+  output: 'export',
 })
