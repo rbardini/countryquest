@@ -33,7 +33,7 @@ export default function SignIn() {
       setMessage('')
       setLoading(true)
 
-      const { error } = await supabase.auth.signIn({ email })
+      const { error } = await supabase.auth.signInWithOtp({ email })
 
       if (error) {
         setError(error.message)
@@ -87,10 +87,10 @@ export default function SignIn() {
             <Button
               colorScheme="blue"
               disabled={loading}
-              isFullWidth
               isLoading={loading}
               loadingText="Sending magic sign in link..."
               type="submit"
+              width="100%"
             >
               Send my magic sign in link
             </Button>

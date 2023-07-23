@@ -1,5 +1,5 @@
 import { AspectRatio, Box, Skeleton, useBoolean } from '@chakra-ui/react'
-import { useAtomValue } from 'jotai/utils'
+import { useAtomValue } from 'jotai'
 import { useRef } from 'react'
 import { visitsAtom } from '../atoms/countries'
 import useChart from '../hooks/use-chart'

@@ -17,7 +17,7 @@ export default function Avatar({
     'colors',
     ['red.200', 'orange.200', 'yellow.200', 'green.200'],
     ['pink.700', 'purple.700', 'cyan.700', 'teal.700'],
-  )
+  ) as string[]
 
   return (
     <BoringAvatar colors={colors} name={email} size={size} variant="beam" />

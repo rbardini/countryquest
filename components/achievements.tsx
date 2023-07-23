@@ -9,8 +9,7 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
-import { useAtom } from 'jotai'
-import { useAtomValue } from 'jotai/utils'
+import { useAtom, useAtomValue } from 'jotai'
 import achievementsAtom from '../atoms/achievements'
 import { visitsAtom, wishesAtom } from '../atoms/countries'
 import Achievement from './achievement'

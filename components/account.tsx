@@ -1,4 +1,4 @@
-import { useAtomValue } from 'jotai/utils'
+import { useAtomValue } from 'jotai'
 import userAtom from '../atoms/user'
 import Profile from './profile'
 import SignIn from './sign-in'

@@ -4,7 +4,7 @@ import type {
   MapChart,
   MapPolygonSeries,
 } from '@amcharts/amcharts5/map'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useAtomCallback } from 'jotai/utils'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
@@ -37,8 +37,8 @@ export default function useChart(
       loading: loadingVisits,
       data: [visitedCountriesData, unvisitedCountriesData],
     },
-    setVisits,
   ] = useAtom(visitsAtom)
+  const setVisits = useSetAtom(visitsAtom)
   const {
     loading: loadingWishes,
     data: [wishedCountriesData, unwishedCountriesData],
@@ -49,11 +49,11 @@ export default function useChart(
   const readWishedCountriesData = useAtomCallback(
     useCallback(get => get(wishesAtom).data[0], []),
   )
-  const white = useColorModeToken('colors', 'white', 'gray.800')
-  const gray100 = useColorModeToken('colors', 'gray.100', 'gray.700')
-  const gray200 = useColorModeToken('colors', 'gray.200', 'gray.600')
-  const gray300 = useColorModeToken('colors', 'gray.300', 'gray.500')
-  const blue500 = useColorModeToken('colors', 'blue.500', 'blue.200')
+  const white = useColorModeToken('colors', 'white', 'gray.800') as string
+  const gray100 = useColorModeToken('colors', 'gray.100', 'gray.700') as string
+  const gray200 = useColorModeToken('colors', 'gray.200', 'gray.600') as string
+  const gray300 = useColorModeToken('colors', 'gray.300', 'gray.500') as string
+  const blue500 = useColorModeToken('colors', 'blue.500', 'blue.200') as string
   const chartRef = useRef<ChartRef>()
 
   useEffect(() => {

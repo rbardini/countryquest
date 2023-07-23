@@ -1,15 +1,13 @@
 import type { UseToastOptions } from '@chakra-ui/react'
-import { createStandaloneToast } from '@chakra-ui/react'
 import type { PostgrestError } from '@supabase/supabase-js'
-import { atom } from 'jotai'
+import { atom, getDefaultStore } from 'jotai'
 import userAtom from '../atoms/user'
 import type { CountryData } from '../data/geodata'
 import geodata from '../data/geodata'
 import supabase from '../lib/supabase'
-import theme from '../theme'
+import toastAtom from './toast'
 
 type Table = 'visits' | 'wishes'
-type Row = { user_id: string; country_id: string }
 type Value = {
   loading: boolean
   error: PostgrestError | null
@@ -21,7 +19,9 @@ type ValueWithData = Value & {
 type Update = { action: 'add' | 'remove'; id: string } | { action: 'fetch' }
 export type Updater = (update: Update) => void
 
-const toast = createStandaloneToast({ theme })
+const store = getDefaultStore()
+const { toast } = store.get(toastAtom)
+
 const showError = (props: UseToastOptions) =>
   toast({
     status: 'error',
@@ -43,7 +43,7 @@ const countriesAtomCreator = (table: Table) => {
 
   const countriesAtom = atom(initialState)
 
-  const fetchCountriesAtom = atom<Value, Table>(
+  const fetchCountriesAtom = atom<Value, [table: Table], void>(
     get => get(countriesAtom),
     (get, set, table) => {
       const user = get(userAtom)
@@ -58,7 +58,7 @@ const countriesAtomCreator = (table: Table) => {
       }
 
       ;(async () => {
-        const response = await supabase.from<Row>(table).select('country_id')
+        const response = await supabase.from(table).select('country_id')
 
         if (response.error) {
           console.error(response.error.message)
@@ -96,7 +96,7 @@ const countriesAtomCreator = (table: Table) => {
     return { ...countries, data }
   })
 
-  const countriesUpdaterAtom = atom<ValueWithData, Update>(
+  const countriesUpdaterAtom = atom<ValueWithData, [update: Update], void>(
     get => get(countriesDataAtom),
     (get, set, update) => {
       const user = get(userAtom)
@@ -127,11 +127,8 @@ const countriesAtomCreator = (table: Table) => {
 
           ;(async () => {
             const { error } = await supabase
-              .from<Row>(table)
-              .insert(
-                { user_id: user.id, country_id: id },
-                { returning: 'minimal' },
-              )
+              .from(table)
+              .insert({ user_id: user.id, country_id: id })
 
             if (error) {
               console.error(error.message)
@@ -158,7 +155,7 @@ const countriesAtomCreator = (table: Table) => {
 
           ;(async () => {
             const { error } = await supabase
-              .from<Row>(table)
+              .from(table)
               .delete()
               .match({ country_id: id })
 
@@ -186,7 +183,7 @@ const countriesAtomCreator = (table: Table) => {
 export const visitsAtom = countriesAtomCreator('visits')
 export const wishesAtom = countriesAtomCreator('wishes')
 
-const countriesAtom = atom<Record<Table, ValueWithData>, undefined>(
+const countriesAtom = atom<Record<Table, ValueWithData>, [], void>(
   get => ({
     visits: get(visitsAtom),
     wishes: get(wishesAtom),

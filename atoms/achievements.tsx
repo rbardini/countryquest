@@ -22,7 +22,7 @@ export type Value = {
 
 const achievementsIncludesWishesAtom = atom(false)
 
-const achievementsAtom = atom<Value, boolean>(
+const achievementsAtom = atom<Value, [includesWishes: boolean], void>(
   get => {
     const {
       data: [visitedCountriesData],

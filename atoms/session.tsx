@@ -1,13 +1,16 @@
+import { Session } from '@supabase/supabase-js'
 import { atom } from 'jotai'
 import supabase from '../lib/supabase'
 
-const sessionAtom = atom(supabase.auth.session())
+const sessionAtom = atom<Session | null>(
+  (await supabase.auth.getSession()).data.session,
+)
 sessionAtom.onMount = setSession => {
-  const { data: subscription } = supabase.auth.onAuthStateChange(
-    (_event, session) => setSession(session),
+  const { data } = supabase.auth.onAuthStateChange((_event, session) =>
+    setSession(session),
   )
 
-  return subscription?.unsubscribe
+  return data.subscription.unsubscribe
 }
 
 export default sessionAtom
