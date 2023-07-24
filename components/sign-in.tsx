@@ -31,6 +31,9 @@ export default function SignIn() {
 
       setError('')
       setMessage('')
+
+      if (!email) return
+
       setLoading(true)
 
       const { error } = await supabase.auth.signInWithOtp({ email })
@@ -65,22 +68,25 @@ export default function SignIn() {
           Sign in to save visits and more
         </PopoverHeader>
         <PopoverBody>
-          <FormControl>
-            <InputGroup>
-              <Input
-                ref={emailFieldRef}
-                disabled={loading}
-                isRequired
-                onChange={e => setEmail(e.target.value)}
-                placeholder="Your email address"
-                type="email"
-                value={email}
-              />
-            </InputGroup>
-            <FormHelperText>
-              We’ll email you a magic link for a password-free sign in.
-            </FormHelperText>
-          </FormControl>
+          {!message && (
+            <FormControl>
+              <InputGroup>
+                <Input
+                  ref={emailFieldRef}
+                  disabled={loading}
+                  isRequired
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="Your email address"
+                  type="email"
+                  value={email}
+                />
+              </InputGroup>
+              <FormHelperText>
+                We’ll email you a magic link for a password-free sign in.
+              </FormHelperText>
+            </FormControl>
+          )}
+          {message && <Text color="green.400">{message}</Text>}
         </PopoverBody>
         <PopoverFooter border={0} paddingBlockEnd={6}>
           <VStack spacing={2}>
@@ -92,9 +98,8 @@ export default function SignIn() {
               type="submit"
               width="100%"
             >
-              Send my magic sign in link
+              {message ? 'Try again' : 'Send my magic sign in link'}
             </Button>
-            {message && <Text color="green.400">{message}</Text>}
             {error && <Text color="red.400">{error}</Text>}
           </VStack>
         </PopoverFooter>
