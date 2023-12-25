@@ -37,3 +37,6 @@ yarn-error.log*
 # supabase
 /supabase/.branches
 /supabase/.temp
+
+# netlify
+.netlify
