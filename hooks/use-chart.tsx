@@ -89,6 +89,9 @@ export default function useChart(
         background.setAll({ fill: color(white), stroke: color(gray100) })
         background.states.create('hover', {}).setAll({ fill: color(gray200) })
         background.states.create('down', {}).setAll({ fill: color(gray300) })
+        background.states
+          .create('disabled', {})
+          .setAll({ fill: color(gray100) })
       })
 
       const chart = root.container.children.push(
