@@ -4,8 +4,8 @@ import { useAtomValue, useSetAtom } from 'jotai'
 import type { AppProps } from 'next/app'
 import { useEffect } from 'react'
 import countriesAtom from '../atoms/countries'
-import userAtom from '../atoms/user'
 import toastAtom from '../atoms/toast'
+import userAtom from '../atoms/user'
 import theme from '../theme'
 
 function App({ Component, pageProps }: AppProps) {
