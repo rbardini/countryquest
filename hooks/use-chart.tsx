@@ -101,14 +101,6 @@ export default function useChart(
         }),
       )
 
-      const data: Record<string, number> = {}
-      ;(await readWishedCountriesData()).forEach(
-        ({ id }) => (data[id] = Value.Wish),
-      )
-      ;(await readVisitedCountriesData()).forEach(
-        ({ id }) => (data[id] = Value.Visit),
-      )
-
       const series = chart.series.push(
         MapPolygonSeries.new(root, {
           geoJSON: geodata,
@@ -127,9 +119,6 @@ export default function useChart(
           key: 'fill',
         },
       ])
-      series.data.setAll(
-        Object.entries(data).map(([id, value]) => ({ id, value })),
-      )
 
       const { template } = series.mapPolygons
       template.setAll({
@@ -146,6 +135,15 @@ export default function useChart(
 
         setVisits({ action: isVisited ? 'remove' : 'add', id })
       })
+
+      const data: { id: string; value: number }[] = []
+      ;(await readWishedCountriesData()).forEach(({ id }) =>
+        data.push({ id, value: Value.Wish }),
+      )
+      ;(await readVisitedCountriesData()).forEach(({ id }) =>
+        data.push({ id, value: Value.Visit }),
+      )
+      series.data.setAll(data)
 
       chartRef.current = { root, chart, series }
     })()
