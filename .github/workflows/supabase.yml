@@ -1,0 +1,41 @@
+name: Supabase
+on:
+  schedule:
+    - cron: '0 9 * * 1,4'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Ping Supabase to prevent pausing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install
+        run: npm install @supabase/supabase-js
+
+      - name: Ping Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_PING_TABLE: ${{ secrets.SUPABASE_PING_TABLE }}
+        run: |
+          node -e "
+            import { createClient } from '@supabase/supabase-js'
+
+            const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+            const { data, error } = await supabase.from(process.env.SUPABASE_PING_TABLE).select('*').limit(5)
+
+            if (error) {
+              console.error('❌ Failed to select rows')
+              process.exit(1)
+            }
+
+            console.log(`✅ Selected ${data.length} rows`)
+          "
