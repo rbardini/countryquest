@@ -137,10 +137,10 @@ export default function useChart(
       })
 
       const data: { id: string; value: number }[] = []
-      ;(await readWishedCountriesData()).forEach(({ id }) =>
+      readWishedCountriesData().forEach(({ id }) =>
         data.push({ id, value: Value.Wish }),
       )
-      ;(await readVisitedCountriesData()).forEach(({ id }) =>
+      readVisitedCountriesData().forEach(({ id }) =>
         data.push({ id, value: Value.Visit }),
       )
       series.data.setAll(data)
