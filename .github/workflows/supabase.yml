@@ -37,5 +37,5 @@ jobs:
               process.exit(1)
             }
 
-            console.log(`✅ Selected ${data.length} rows`)
+            console.log('✅ Selected ' + data.length + ' rows')
           "
