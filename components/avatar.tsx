@@ -20,6 +20,6 @@ export default function Avatar({
   ) as string[]
 
   return (
-    <BoringAvatar colors={colors} name={email} size={size} variant="beam" />
+    <BoringAvatar colors={colors} name={email!} size={size} variant="beam" />
   )
 }
