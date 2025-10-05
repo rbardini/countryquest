@@ -39,32 +39,32 @@
     "type:check": "tsc"
   },
   "dependencies": {
-    "@amcharts/amcharts5": "5.13.6",
+    "@amcharts/amcharts5": "5.14.2",
     "@amcharts/amcharts5-geodata": "5.1.5",
-    "@chakra-ui/icons": "2.1.1",
+    "@chakra-ui/icons": "2.2.4",
     "@chakra-ui/react": "2.8.2",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
-    "@fontsource-variable/dosis": "5.2.7",
-    "@next/bundle-analyzer": "14.2.5",
-    "@supabase/supabase-js": "2.57.4",
-    "boring-avatars": "2.0.1",
+    "@fontsource-variable/dosis": "5.2.8",
+    "@next/bundle-analyzer": "14.2.33",
+    "@supabase/supabase-js": "2.58.0",
+    "boring-avatars": "2.0.4",
     "framer-motion": "11.3.28",
     "is-european": "1.0.9",
-    "jotai": "2.14.0",
-    "next": "14.2.5",
+    "jotai": "2.15.0",
+    "next": "14.2.33",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@types/node": "24.5.1",
+    "@types/node": "24.6.2",
     "@types/react": "18.3.3",
     "babel-plugin-preval": "5.1.0",
     "husky": "9.1.7",
-    "lint-staged": "16.1.6",
+    "lint-staged": "16.2.3",
     "prettier": "3.6.2",
-    "prettier-plugin-organize-imports": "4.2.0",
+    "prettier-plugin-organize-imports": "4.3.0",
     "prettier-plugin-packagejson": "2.5.19",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   }
 }
