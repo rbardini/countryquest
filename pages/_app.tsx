@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import countriesAtom from '../atoms/countries'
 import toastAtom from '../atoms/toast'
 import userAtom from '../atoms/user'
+import { evolu, EvoluProvider } from '../lib/evolu'
 import theme from '../theme'
 
 function App({ Component, pageProps }: AppProps) {
@@ -21,10 +22,12 @@ function App({ Component, pageProps }: AppProps) {
   }, [user, fetchCountries])
 
   return (
-    <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
-      <ToastContainer />
-    </ChakraProvider>
+    <EvoluProvider value={evolu}>
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+        <ToastContainer />
+      </ChakraProvider>
+    </EvoluProvider>
   )
 }
 
