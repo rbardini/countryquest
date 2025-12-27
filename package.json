@@ -28,9 +28,9 @@
     "url": "https://rbardini.com/"
   },
   "scripts": {
-    "build": "next build",
+    "build": "next build --webpack",
     "build:analyze": "ANALYZE=true npm run build",
-    "dev": "next dev --turbopack",
+    "dev": "next dev --webpack",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
