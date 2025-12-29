@@ -1,17 +1,13 @@
 import { useToken } from '@chakra-ui/react'
-import type { User } from '@supabase/supabase-js'
 import BoringAvatar from 'boring-avatars'
 import useColorModeToken from '../hooks/use-color-mode-token'
 
 type Props = {
   size?: string | number
-  user: User
+  name: string
 }
 
-export default function Avatar({
-  size: sizeToken = 10,
-  user: { email },
-}: Props) {
+export default function Avatar({ size: sizeToken = 10, name }: Props) {
   const size = useToken('sizes', sizeToken, sizeToken)
   const colors = useColorModeToken(
     'colors',
@@ -19,7 +15,5 @@ export default function Avatar({
     ['pink.700', 'purple.700', 'cyan.700', 'teal.700'],
   ) as string[]
 
-  return (
-    <BoringAvatar colors={colors} name={email!} size={size} variant="beam" />
-  )
+  return <BoringAvatar colors={colors} name={name} size={size} variant="beam" />
 }

@@ -54,11 +54,9 @@
     "@evolu/react-web": "2.4.0",
     "@fontsource-variable/dosis": "5.2.8",
     "@next/bundle-analyzer": "16.1.1",
-    "@supabase/supabase-js": "2.89.0",
     "boring-avatars": "2.0.4",
     "framer-motion": "12.23.26",
     "is-european": "1.0.9",
-    "jotai": "2.16.1",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"
