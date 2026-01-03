@@ -1,6 +1,7 @@
 import {
   CopyIcon,
   DeleteIcon,
+  DownloadIcon,
   MoonIcon,
   RepeatClockIcon,
   SunIcon,
@@ -16,15 +17,25 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import { use } from 'react'
+import { type ComponentRef, use, useCallback, useRef } from 'react'
 import { useEvolu } from '../lib/evolu'
 import Avatar from './avatar'
 import BackupData from './backup-data'
 import ClearData from './clear-data'
+import ExportJSON from './export-json'
+import ImportJSON from './import-json'
 import RestoreData from './restore-data'
+import UploadIcon from './upload-icon'
 
 export default function Settings() {
   const { toggleColorMode } = useColorMode()
+  const exportRef = useRef<ComponentRef<typeof ExportJSON>>(null)
+  const onExportOpen = useCallback(() => exportRef.current?.show(), [])
+  const {
+    isOpen: isImportOpen,
+    onOpen: onImportOpen,
+    onClose: onImportClose,
+  } = useDisclosure()
   const {
     isOpen: isBackupOpen,
     onOpen: onBackupOpen,
@@ -57,6 +68,13 @@ export default function Settings() {
             Turn {useColorModeValue('on', 'off')} dark mode
           </MenuItem>
           <MenuDivider />
+          <MenuItem icon={<DownloadIcon />} onClick={onExportOpen}>
+            Export to JSON
+          </MenuItem>
+          <MenuItem icon={<UploadIcon />} onClick={onImportOpen}>
+            Import from JSON
+          </MenuItem>
+          <MenuDivider />
           <MenuItem icon={<CopyIcon />} onClick={onBackupOpen}>
             Backup data
           </MenuItem>
@@ -69,6 +87,8 @@ export default function Settings() {
           </MenuItem>
         </MenuList>
       </Menu>
+      <ExportJSON ref={exportRef} />
+      <ImportJSON isOpen={isImportOpen} onClose={onImportClose} />
       <BackupData isOpen={isBackupOpen} onClose={onBackupClose} />
       <RestoreData isOpen={isRestoreOpen} onClose={onRestoreClose} />
       <ClearData
