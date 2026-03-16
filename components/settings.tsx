@@ -4,10 +4,11 @@ import {
   DownloadIcon,
   MoonIcon,
   RepeatClockIcon,
+  SettingsIcon,
   SunIcon,
 } from '@chakra-ui/icons'
 import {
-  IconButton,
+  Button,
   Menu,
   MenuButton,
   MenuDivider,
@@ -17,9 +18,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import { type ComponentRef, use, useCallback, useRef } from 'react'
-import { useEvolu } from '../lib/evolu'
-import Avatar from './avatar'
+import { type ComponentRef, useCallback, useRef } from 'react'
 import BackupData from './backup-data'
 import ClearData from './clear-data'
 import ExportJSON from './export-json'
@@ -51,14 +50,12 @@ export default function Settings() {
     onOpen: onClearOpen,
     onClose: onClearClose,
   } = useDisclosure()
-  const { appOwner } = useEvolu()
-  const owner = use(appOwner)
 
   return (
     <>
       <Menu>
-        <MenuButton as={IconButton} isRound aria-label="Settings">
-          <Avatar name={owner.id} />
+        <MenuButton as={Button} leftIcon={<SettingsIcon />} variant="outline">
+          Settings
         </MenuButton>
         <MenuList>
           <MenuItem

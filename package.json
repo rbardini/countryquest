@@ -54,7 +54,6 @@
     "@evolu/react-web": "2.4.0",
     "@fontsource-variable/dosis": "5.2.8",
     "@next/bundle-analyzer": "16.1.1",
-    "boring-avatars": "2.0.4",
     "framer-motion": "12.23.26",
     "is-european": "1.0.9",
     "next": "16.1.1",
