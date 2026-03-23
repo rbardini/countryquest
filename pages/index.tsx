@@ -1,7 +1,6 @@
 import { Box, Divider } from '@chakra-ui/react'
 import Head from 'next/head'
 import Content from '../components/content'
-import Footer from '../components/footer'
 import Header from '../components/header'
 
 export default function Home() {
@@ -19,8 +18,6 @@ export default function Home() {
       <Header />
       <Divider />
       <Content />
-      <Divider />
-      <Footer />
     </Box>
   )
 }
