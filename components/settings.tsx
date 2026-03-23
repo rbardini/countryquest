@@ -2,6 +2,7 @@ import {
   CopyIcon,
   DeleteIcon,
   DownloadIcon,
+  InfoIcon,
   MoonIcon,
   RepeatClockIcon,
   SettingsIcon,
@@ -19,6 +20,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { type ComponentRef, useCallback, useRef } from 'react'
+import About from './about'
 import BackupData from './backup-data'
 import ClearData from './clear-data'
 import ExportJSON from './export-json'
@@ -30,6 +32,11 @@ export default function Settings() {
   const { toggleColorMode } = useColorMode()
   const exportRef = useRef<ComponentRef<typeof ExportJSON>>(null)
   const onExportOpen = useCallback(() => exportRef.current?.show(), [])
+  const {
+    isOpen: isAboutOpen,
+    onOpen: onAboutOpen,
+    onClose: onAboutClose,
+  } = useDisclosure()
   const {
     isOpen: isImportOpen,
     onOpen: onImportOpen,
@@ -58,6 +65,10 @@ export default function Settings() {
           Settings
         </MenuButton>
         <MenuList>
+          <MenuItem icon={<InfoIcon />} onClick={onAboutOpen}>
+            About
+          </MenuItem>
+          <MenuDivider />
           <MenuItem
             icon={useColorModeValue(<MoonIcon />, <SunIcon />)}
             onClick={toggleColorMode}
@@ -84,6 +95,7 @@ export default function Settings() {
           </MenuItem>
         </MenuList>
       </Menu>
+      <About isOpen={isAboutOpen} onClose={onAboutClose} />
       <ExportJSON ref={exportRef} />
       <ImportJSON isOpen={isImportOpen} onClose={onImportClose} />
       <BackupData isOpen={isBackupOpen} onClose={onBackupClose} />
