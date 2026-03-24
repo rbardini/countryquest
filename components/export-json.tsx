@@ -1,8 +1,11 @@
-import { useAtomValue } from 'jotai'
-import { useAtomCallback } from 'jotai/utils'
 import { type Ref, useCallback, useImperativeHandle } from 'react'
-import { visitsAtom, wishesAtom } from '../atoms/countries'
-import toastAtom from '../atoms/toast'
+import {
+  brandedIdToCountryId,
+  evolu,
+  visitsQuery,
+  wishesQuery,
+} from '../lib/evolu'
+import { toast } from '../lib/toast'
 
 type Props = {
   ref: Ref<{ show(): void }>
@@ -10,18 +13,13 @@ type Props = {
 }
 
 export default function ExportJSON({ ref, onClose }: Props) {
-  const { toast } = useAtomValue(toastAtom)
-  const readVisitedCountriesData = useAtomCallback(
-    useCallback(get => get(visitsAtom).data[0], []),
-  )
-  const readWishedCountriesData = useAtomCallback(
-    useCallback(get => get(wishesAtom).data[0], []),
-  )
-
   const onExport = useCallback(async () => {
+    const [visits, wishes] = await Promise.all(
+      evolu.loadQueries([visitsQuery, wishesQuery]),
+    )
     const json = {
-      visits: readVisitedCountriesData().map(({ id }) => ({ id })),
-      wishes: readWishedCountriesData().map(({ id }) => ({ id })),
+      visits: visits.map(({ id }) => ({ id: brandedIdToCountryId(id) })),
+      wishes: wishes.map(({ id }) => ({ id: brandedIdToCountryId(id) })),
     }
 
     const blob = new Blob([JSON.stringify(json)], { type: 'application/json' })
@@ -36,7 +34,7 @@ export default function ExportJSON({ ref, onClose }: Props) {
     document.body.removeChild(link)
 
     URL.revokeObjectURL(url)
-  }, [readVisitedCountriesData, readWishedCountriesData])
+  }, [])
 
   useImperativeHandle(ref, () => {
     return {
@@ -57,7 +55,7 @@ export default function ExportJSON({ ref, onClose }: Props) {
         })
       },
     }
-  }, [onClose, onExport, toast])
+  }, [onClose, onExport])
 
   return null
 }

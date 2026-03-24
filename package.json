@@ -28,9 +28,9 @@
     "url": "https://rbardini.com/"
   },
   "scripts": {
-    "build": "next build",
+    "build": "next build --webpack",
     "build:analyze": "ANALYZE=true npm run build",
-    "dev": "next dev --turbopack",
+    "dev": "next dev --webpack",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
@@ -49,13 +49,13 @@
     "@chakra-ui/react": "2.10.9",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
+    "@evolu/common": "7.4.1",
+    "@evolu/react": "10.4.0",
+    "@evolu/react-web": "2.4.0",
     "@fontsource-variable/dosis": "5.2.8",
     "@next/bundle-analyzer": "16.1.1",
-    "@supabase/supabase-js": "2.89.0",
-    "boring-avatars": "2.0.4",
     "framer-motion": "12.23.26",
     "is-european": "1.0.9",
-    "jotai": "2.16.1",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"
