@@ -14,7 +14,7 @@
 
 - ⚛️ [Next.js](https://nextjs.org/) for UI building
 - ⚡ [Chakra UI](https://chakra-ui.com/) for UI components
-- 👻 [Jotai](https://jotai.pmnd.rs/) for state management
+- 🔐 [Evolu](https://www.evolu.dev/) for encrypted sync and backup
 - 📈 [amCharts](https://www.amcharts.com/) for map charts
 - 🌎 [REST Countries](https://restcountries.com/) for country data
 - 🤖 [TypeScript](https://www.typescriptlang.org/) for type-checking
@@ -22,7 +22,6 @@
 - 💄 [Prettier](https://prettier.io/) for formatting
 - 🐶 [Husky](https://typicode.github.io/husky) and [lint-staged](https://github.com/okonet/lint-staged) for commit hooks
 - 🎬 [Framer Motion](https://www.framer.com/motion/) for animations
-- 🗃️ [Supabase](https://supabase.io/) for data storage
 - ✅ [GitHub Actions](https://github.com/features/actions) for continuous integration
 - 🏗️ [Netlify](https://www.netlify.com/) for deployment
 

@@ -35,9 +35,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-# supabase
-/supabase/.branches
-/supabase/.temp
-
 # netlify
 .netlify

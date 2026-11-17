@@ -2,7 +2,6 @@ import { SmallAddIcon } from '@chakra-ui/icons'
 import {
   Heading,
   Select,
-  Skeleton,
   Tag,
   TagCloseButton,
   TagLabel,
@@ -14,59 +13,46 @@ import {
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
-import type { Updater } from '../atoms/countries'
-import type { CountryData } from '../data/geodata'
+import useCountries from '../hooks/use-countries'
+import { CountriesRow, Query, Table } from '../lib/evolu'
 
 const MotionWrapItem = motion(WrapItem)
 
 type Props = {
-  isLoading?: boolean
-  excludedCountriesData: CountryData[]
-  includedCountriesData: CountryData[]
-  onCountryChange: Updater
   title: ReactNode
+  table: Table
+  query: Query<CountriesRow>
 }
 
-export default function Countries({
-  isLoading = false,
-  excludedCountriesData,
-  includedCountriesData,
-  onCountryChange,
-  title,
-}: Props) {
+export default function Countries({ title, table, query }: Props) {
   const countColor = useColorModeValue('gray.300', 'gray.600')
+  const {
+    includedCountriesData,
+    excludedCountriesData,
+    onAddCountry,
+    onRemoveCountry,
+  } = useCountries(table, query)
 
   return (
     <VStack align="stretch">
       <Heading>
         {title}{' '}
-        {!isLoading && (
-          <Text as="span" color={countColor}>
-            {includedCountriesData.length}
-          </Text>
-        )}
+        <Text as="span" color={countColor}>
+          {includedCountriesData.length}
+        </Text>
       </Heading>
       <Wrap>
-        {isLoading &&
-          [...Array(9).keys()].map(i => (
-            <Skeleton key={i} borderRadius="full">
-              <Tag inlineSize={`${10 + ((i * 3) % 7)}ch`} />
-            </Skeleton>
-          ))}
-        {!isLoading &&
-          includedCountriesData.map(({ id, flag, name }) => (
-            <MotionWrapItem key={id} layout="position">
-              <Tag size="lg" borderRadius="full">
-                <TagLabel>
-                  {flag} {name}
-                </TagLabel>
-                <TagCloseButton
-                  onClick={() => onCountryChange({ action: 'remove', id })}
-                />
-              </Tag>
-            </MotionWrapItem>
-          ))}
-        {!isLoading && excludedCountriesData.length > 0 && (
+        {includedCountriesData.map(({ id, flag, name }) => (
+          <MotionWrapItem key={id} layout="position">
+            <Tag size="lg" borderRadius="full">
+              <TagLabel>
+                {flag} {name}
+              </TagLabel>
+              <TagCloseButton onClick={() => onRemoveCountry(id)} />
+            </Tag>
+          </MotionWrapItem>
+        ))}
+        {excludedCountriesData.length > 0 && (
           <MotionWrapItem layout="position">
             <Select
               borderRadius="full"
@@ -74,9 +60,7 @@ export default function Countries({
               icon={<SmallAddIcon />}
               iconColor={countColor}
               maxInlineSize="13ch"
-              onChange={({ target }) =>
-                onCountryChange({ action: 'add', id: target.value })
-              }
+              onChange={({ target }) => onAddCountry(target.value)}
               placeholder="Add country"
               size="sm"
               value=""

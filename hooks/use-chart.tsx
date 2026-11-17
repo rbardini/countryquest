@@ -4,14 +4,14 @@ import type {
   MapChart,
   MapPolygonSeries,
 } from '@amcharts/amcharts5/map'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { useAtomCallback } from 'jotai/utils'
+import { useBoolean } from '@chakra-ui/react'
 import type { RefObject } from 'react'
-import { useCallback, useEffect, useRef } from 'react'
-import { visitsAtom, wishesAtom } from '../atoms/countries'
+import { useEffect, useRef } from 'react'
 import geodata from '../data/geodata'
 import theme from '../theme'
 import useColorModeToken from './use-color-mode-token'
+import useVisitedCountries from './use-visited-countries'
+import useWishedCountries from './use-wished-countries'
 
 export type ChartRef = {
   root: Root
@@ -25,6 +25,8 @@ export enum Value {
   Visit = 1,
 }
 
+const valueKey = 'value'
+
 export default function useChart(
   containerRef: RefObject<HTMLElement | null>,
   onChartReady: (
@@ -32,23 +34,13 @@ export default function useChart(
     event: { type: 'frameended'; target: Root },
   ) => void,
 ) {
-  const [
-    {
-      loading: loadingVisits,
-      data: [visitedCountriesData, unvisitedCountriesData],
-    },
-  ] = useAtom(visitsAtom)
-  const setVisits = useSetAtom(visitsAtom)
   const {
-    loading: loadingWishes,
-    data: [wishedCountriesData, unwishedCountriesData],
-  } = useAtomValue(wishesAtom)
-  const readVisitedCountriesData = useAtomCallback(
-    useCallback(get => get(visitsAtom).data[0], []),
-  )
-  const readWishedCountriesData = useAtomCallback(
-    useCallback(get => get(wishesAtom).data[0], []),
-  )
+    visitedCountriesData,
+    unvisitedCountriesData,
+    onAddVisitedCountry,
+    onRemoveVisitedCountry,
+  } = useVisitedCountries()
+  const { wishedCountriesData, unwishedCountriesData } = useWishedCountries()
   const white = useColorModeToken('colors', 'white', 'gray.800') as string
   const gray100 = useColorModeToken('colors', 'gray.100', 'gray.700') as string
   const gray200 = useColorModeToken('colors', 'gray.200', 'gray.600') as string
@@ -59,14 +51,13 @@ export default function useChart(
     'purple.200',
   ) as string
   const chartRef = useRef<ChartRef>(undefined)
+  const [initialized, setInitialized] = useBoolean()
 
   useEffect(() => {
-    if (loadingVisits || loadingWishes) return
-
     let disposed = false
 
     ;(async () => {
-      if (containerRef.current == null) return
+      if (disposed || containerRef.current == null) return
 
       const [
         { color, Root },
@@ -77,8 +68,6 @@ export default function useChart(
         import('@amcharts/amcharts5/map'),
         import('@amcharts/amcharts5/themes/Animated'),
       ])
-
-      if (disposed) return
 
       const root = Root.new(containerRef.current)
       root.setThemes([Animated.new(root)])
@@ -108,14 +97,14 @@ export default function useChart(
       const series = chart.series.push(
         MapPolygonSeries.new(root, {
           geoJSON: geodata,
-          valueField: 'value',
+          valueField: valueKey,
           interactive: true,
         }),
       )
       series.set('heatRules', [
         {
           target: series.mapPolygons.template,
-          dataField: 'value',
+          dataField: valueKey,
           min: color(gray100),
           max: color(purple500),
           minValue: 0,
@@ -135,21 +124,15 @@ export default function useChart(
       template.events.on('click', ({ target }) => {
         const dataItem = target.dataItem as DataItem<IMapPolygonSeriesDataItem>
         const id = dataItem.get('id')!
-        const isVisited = dataItem.get('value') === Value.Visit
+        const isVisited = dataItem.get(valueKey) === Value.Visit
 
-        setVisits({ action: isVisited ? 'remove' : 'add', id })
+        isVisited ? onRemoveVisitedCountry(id) : onAddVisitedCountry(id)
       })
 
-      const data: { id: string; value: number }[] = []
-      readWishedCountriesData().forEach(({ id }) =>
-        data.push({ id, value: Value.Wish }),
-      )
-      readVisitedCountriesData().forEach(({ id }) =>
-        data.push({ id, value: Value.Visit }),
-      )
-      series.data.setAll(data)
-
       chartRef.current = { root, chart, series }
+
+      // Delay to prevent state change from being batched and not picked up by the effect below
+      setTimeout(setInitialized.on, 0)
     })()
 
     return () => {
@@ -157,15 +140,14 @@ export default function useChart(
 
       chartRef.current?.root.dispose()
       chartRef.current = undefined
+      setInitialized.off()
     }
   }, [
     containerRef,
     onChartReady,
-    loadingVisits,
-    loadingWishes,
-    setVisits,
-    readVisitedCountriesData,
-    readWishedCountriesData,
+    onAddVisitedCountry,
+    onRemoveVisitedCountry,
+    setInitialized,
     white,
     gray100,
     gray200,
@@ -174,36 +156,36 @@ export default function useChart(
   ])
 
   useEffect(() => {
-    const series = chartRef.current?.series
+    if (!initialized) return
 
-    if (loadingVisits || loadingWishes || !series) return
+    const series = chartRef.current?.series
+    if (!series) return
     ;[...unvisitedCountriesData, ...unwishedCountriesData].forEach(({ id }) => {
       const dataItem = series.getDataItemById(id)!
-      const value = dataItem.get('value')
+      const value = dataItem.get(valueKey)
 
-      if (value) dataItem.set('value', Value.None)
+      if (value) dataItem.set(valueKey, Value.None)
     })
 
     wishedCountriesData.forEach(({ id }) => {
       const dataItem = series.getDataItemById(id)!
-      const value = dataItem.get('value')
+      const value = dataItem.get(valueKey)
 
-      if (!value) dataItem.set('value', Value.Wish)
+      if (!value) dataItem.set(valueKey, Value.Wish)
     })
 
     visitedCountriesData.forEach(({ id }) => {
       const dataItem = series.getDataItemById(id)!
-      const value = dataItem.get('value')
+      const value = dataItem.get(valueKey)
 
-      if (value !== Value.Visit) dataItem.set('value', Value.Visit)
+      if (value !== Value.Visit) dataItem.set(valueKey, Value.Visit)
     })
   }, [
-    loadingVisits,
-    loadingWishes,
-    visitedCountriesData,
+    initialized,
     unvisitedCountriesData,
-    wishedCountriesData,
     unwishedCountriesData,
+    visitedCountriesData,
+    wishedCountriesData,
   ])
 
   return chartRef

@@ -1,6 +1,6 @@
 import { Flex, Heading, useColorModeValue } from '@chakra-ui/react'
-import Account from '../components/account'
 import useIsClient from '../hooks/use-is-client'
+import Settings from './settings'
 
 export default function Header() {
   const isClient = useIsClient()
@@ -22,7 +22,7 @@ export default function Header() {
       >
         Countryquest
       </Heading>
-      {isClient && <Account />}
+      {isClient && <Settings />}
     </Flex>
   )
 }
